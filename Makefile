@@ -1,11 +1,13 @@
-run:
-	./run.sh
-
+.PHONY: install test eval doctor serve mcp
+install:
+	pip install -r requirements.txt && pip install -e .
 test:
-	PYTHONPATH=. pytest -q
-
+	pytest -q
 eval:
-	PYTHONPATH=. python evals/run_benchmark.py
-
+	python evals/run_benchmark.py
 doctor:
-	PYTHONPATH=. python -m infraagentkit.cli doctor
+	infra-agent doctor
+serve:
+	infra-agent serve --port 8103
+mcp:
+	infra-agent mcp-serve

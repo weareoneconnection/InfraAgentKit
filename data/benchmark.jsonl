@@ -1,4 +1,24 @@
-{"id":"B01","message":"Worker near unprotected edge at P47","agent":"hse-agent","expect_supported":true,"expect_action":true}
-{"id":"B02","message":"Concrete crack defect on P52 pier","agent":"quality-agent","expect_supported":true,"expect_action":true}
-{"id":"B03","message":"Subcontractor requests variation and claim","agent":"contract-agent","expect_supported":true,"expect_action":true}
-{"id":"B04","message":"General greeting with no governed evidence","agent":"hse-agent","expect_supported":false,"expect_action":false}
+{"id":"G01","category":"grounding","message":"P47 墩临边防护缺失，工人在高处作业未系安全带，下午还要继续施工。","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-WAH-001"],"risk":"HIGH","actions":1}
+{"id":"G02","category":"grounding","message":"Worker near unprotected edge at Pier P47 without fall protection","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-WAH-001"],"risk":"HIGH","actions":1}
+{"id":"G03","category":"grounding","message":"Concrete crack found on pier P52 after formwork removal","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-NCR-001"],"risk":"MEDIUM","actions":1}
+{"id":"G04","category":"grounding","message":"P52 墩柱混凝土出现裂缝，需开具不符合项","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-NCR-001"],"risk":"MEDIUM","actions":1}
+{"id":"G05","category":"grounding","message":"Concrete cube strength results below the specified grade for deck pour 3","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-CON-001"],"actions":1}
+{"id":"G06","category":"grounding","message":"分包商申请变更，要求增加锚栓并延长工期 10 天。","route":["contract-agent"],"status":"SUPPORTED","refs":["CON-VAR-001"],"actions":1}
+{"id":"G07","category":"grounding","message":"Subcontractor requests a variation for extra anchor bolts and an extension of time","route":["contract-agent"],"status":"SUPPORTED","refs":["CON-VAR-001","CON-EOT-001"],"actions":1}
+{"id":"G08","category":"grounding","message":"Mobile crane lifting at station S12 tomorrow; crane certificate expired last week","route":["plant-agent"],"status":"SUPPORTED","refs":["PLT-LIFT-001","PLT-CERT-001"],"risk":"HIGH","actions":2}
+{"id":"G09","category":"grounding","message":"明天汽车吊吊装钢梁，起重机检验证书已过期","route":["plant-agent"],"status":"SUPPORTED","refs":["PLT-LIFT-001"],"risk":"HIGH","actions":2}
+{"id":"G10","category":"grounding","message":"Bridge bearing displacement and corrosion above the alert threshold at BRG-03","route":["asset-agent"],"status":"SUPPORTED","refs":["BRG-INS-001"],"actions":1,"policy_approved":1}
+{"id":"G11","category":"grounding","message":"深基坑开挖支护出现变形","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-EXC-001"],"risk":"HIGH","actions":1}
+{"id":"G12","category":"grounding","message":"动火作业没有作业许可证","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-PTW-001"],"risk":"HIGH","actions":1}
+{"id":"G13","category":"grounding","message":"Formwork collapse at P61, one worker injured; scene preserved","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-INC-001"],"risk":"CRITICAL","actions":1}
+{"id":"G14","category":"grounding","message":"ITP hold point for rebar inspection must be released before the pour","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-ITP-001"],"actions":1}
+{"id":"A01","category":"abstention","message":"I have no knowledge of this site, just saying hello","status":"GAP","actions":0}
+{"id":"A02","category":"abstention","message":"会议改到周五下午","status":"GAP","actions":0}
+{"id":"A03","category":"abstention","message":"Hedge the knowledge risk in the meeting notes","status":"GAP","actions":0}
+{"id":"A04","category":"abstention","message":"Please book a taxi to the airport","status":"GAP","actions":0}
+{"id":"A05","category":"abstention","message":"今天天气不错","status":"GAP","actions":0}
+{"id":"A06","category":"abstention","message":"The encroachment of the knowledge ledge was hedged","status":"GAP","actions":0}
+{"id":"R01","category":"risk","message":"Pledge to acknowledge the edgeless design","risk":"LOW"}
+{"id":"R02","category":"risk","message":"Lifting operation with the mobile crane","risk":"HIGH"}
+{"id":"R03","category":"risk","message":"人员坠落，现场已封闭","risk":"CRITICAL"}
+{"id":"R04","category":"risk","message":"Bearing corrosion observed during inspection","risk":"MEDIUM"}

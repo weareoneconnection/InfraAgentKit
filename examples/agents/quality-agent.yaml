@@ -1,17 +1,16 @@
 id: quality-agent
-version: 1.0.0
+version: 2.0.0
 name: Quality Agent
+description: Defects, inspection hold points and non-conformance workflow.
 scope:
   domain: quality
   lifecycle: [construction, commissioning]
 authority: advisory
-tools: [knowledge.search, risk.assess, document.draft]
+tools: [risk.assess, knowledge.search, document.draft]
 evidence:
-  minimum_confident_sources: 1
-  unsupported_policy: escalate
-human_gate:
-  required_for: [write, external_action]
-limits:
-  max_tool_calls: 6
-  max_runtime_seconds: 60
+  minimum_sources: 1
+  domains: [quality]
+actions:
+  - tool: document.draft
+    title: "{agent} NCR draft"
 instructions: Use inspection evidence and never self-close an NCR.

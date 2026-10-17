@@ -1,17 +1,16 @@
 id: contract-agent
-version: 1.0.0
+version: 2.0.0
 name: Contract Agent
+description: Variations, extension-of-time notices and controlled correspondence.
 scope:
   domain: contract
   lifecycle: [procurement, construction]
 authority: advisory
 tools: [knowledge.search, document.draft]
 evidence:
-  minimum_confident_sources: 1
-  unsupported_policy: escalate
-human_gate:
-  required_for: [write, external_action]
-limits:
-  max_tool_calls: 6
-  max_runtime_seconds: 60
+  minimum_sources: 1
+  domains: [contract]
+actions:
+  - tool: document.draft
+    title: "{agent} controlled reply draft"
 instructions: Never concede liability, cost or time without human authority.

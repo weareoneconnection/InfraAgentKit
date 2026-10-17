@@ -1,0 +1,19 @@
+id: asset-agent
+version: 2.0.0
+name: Asset Maintenance Agent
+description: Bridge and structure inspection findings into maintenance work orders (operator authority example).
+scope:
+  domain: asset
+  lifecycle: [operations]
+authority: operator
+tools: [risk.assess, knowledge.search, document.draft]
+evidence:
+  minimum_sources: 1
+  domains: [asset]
+human_gate:
+  required_for: [external]
+  exempt_tools: [document.draft]
+actions:
+  - tool: document.draft
+    title: "{agent} maintenance work order draft"
+instructions: Raise maintenance drafts from inspection evidence; drafts are internal and auditable.

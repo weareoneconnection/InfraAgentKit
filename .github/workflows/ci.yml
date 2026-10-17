@@ -5,12 +5,16 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
+        with: {python-version: '${{ matrix.python }}'}
       - run: pip install -r requirements.txt && pip install -e .
-      - run: python -m compileall infraagentkit servers
+      - run: python -m compileall -q infraagentkit servers
+      - run: infra-agent doctor
+      - run: infra-agent validate examples/agents/*.yaml
       - run: pytest -q
       - run: python evals/run_benchmark.py
-      - run: infra-agent doctor

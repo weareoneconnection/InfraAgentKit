@@ -1,0 +1,25 @@
+pack: contract
+version: "2026.10"
+sources:
+  - ref: CON-VAR-001
+    title: Variation instruction / 变更指令
+    domain: contract
+    authority: Synthetic Contract Procedure
+    text: >
+      A variation requires a written instruction from the engineer, a valuation and a time-impact
+      assessment. Do not admit entitlement, cost or time before the instruction is verified.
+      变更须有工程师书面指令、计价和工期影响评估；指令核实前不承认任何权利、费用或工期。
+  - ref: CON-EOT-001
+    title: Extension of time notice / 工期延长通知
+    domain: contract
+    authority: Synthetic Contract Procedure
+    text: >
+      A claim for extension of time (EOT) must be notified within the contractual period with
+      contemporaneous records and a critical path analysis. 工期延长索赔须在合同期限内通知，并附同期记录和关键线路分析。
+  - ref: CON-COR-001
+    title: Correspondence control / 函件管理
+    domain: contract
+    authority: Synthetic Contract Procedure
+    text: >
+      Outgoing letters to the owner or subcontractors are drafted, reviewed by the contract manager and
+      approved before sending; drafts are never sent automatically. 对业主或分包的函件须起草、经合同经理审核并批准后才能发出，草稿不得自动发送。

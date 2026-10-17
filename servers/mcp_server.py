@@ -1,22 +1,20 @@
-"""Official MCP Python SDK v2 server for InfraAgentKit reference tools."""
+"""Run the InfraAgentKit MCP server: ``python servers/mcp_server.py [--transport streamable-http]``."""
 from __future__ import annotations
+
 import argparse
-from mcp.server import MCPServer
-from infraagentkit.tools import knowledge_search,risk_assess
+from pathlib import Path
 
-mcp=MCPServer('InfraAgentKit')
+from infraagentkit.mcp_server import build_server
+from infraagentkit.runtime import GovernedRuntime
 
-@mcp.tool()
-def knowledge_search_tool(query:str)->dict:
-    """Search governed synthetic transport-infrastructure reference knowledge."""
-    return knowledge_search(query)
-
-@mcp.tool()
-def risk_assess_tool(text:str)->dict:
-    """Assess a transport-infrastructure event using deterministic demo rules."""
-    return risk_assess(text)
-
-if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--transport',choices=['stdio','streamable-http'],default='stdio');p.add_argument('--port',type=int,default=8113);a=p.parse_args()
-    if a.transport=='streamable-http':mcp.run(transport='streamable-http',port=a.port)
-    else:mcp.run()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--transport", choices=["stdio", "streamable-http"], default="stdio")
+    parser.add_argument("--port", type=int, default=8113)
+    parser.add_argument("--agents", default=str(Path(__file__).resolve().parent.parent / "examples" / "agents"))
+    args = parser.parse_args()
+    server = build_server(GovernedRuntime.from_directory(args.agents))
+    if args.transport == "streamable-http":
+        server.run(transport="streamable-http", port=args.port)
+    else:
+        server.run()

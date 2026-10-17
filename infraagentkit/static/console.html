@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InfraAgentKit 控制台</title>
+<style>
+:root{--bg:#0c0f17;--panel:#141926;--panel2:#1a2132;--line:#283149;--text:#eef2fb;--muted:#93a0bb;--accent:#8b7bff;--ok:#5fd6a1;--warn:#ffc46b;--bad:#ff7c86;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 Inter,system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+main{max-width:1280px;margin:auto;padding:28px 20px 60px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.ey{color:var(--accent);font-size:12px;letter-spacing:.14em;font-weight:700}h1{font-size:34px;margin:6px 0 4px}.sub{color:var(--muted);max-width:780px;margin:0}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted)}.badge.ok{color:var(--ok);border-color:#2f6b55}.badge.bad{color:var(--bad);border-color:#7a3340}
+.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:20px 0}.flow div{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 6px;text-align:center;font-size:12px;color:var(--muted)}.flow b{display:block;color:var(--text);font-size:13px}
+.grid{display:grid;grid-template-columns:380px 1fr;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+h2{font-size:15px;margin:0 0 10px}h3{font-size:13px;color:var(--muted);margin:16px 0 8px;font-weight:600;letter-spacing:.04em}
+textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px;font:inherit}textarea{min-height:120px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chip{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}.chip:hover{color:var(--text)}
+.row{display:flex;gap:8px;margin-top:10px;align-items:center}.btn{border:0;border-radius:10px;padding:9px 14px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}.btn.alt{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.bad{background:#5b2630}.btn:disabled{opacity:.5;cursor:not-allowed}
+.agents label{display:flex;gap:8px;align-items:center;padding:6px 0;color:var(--muted);font-size:13px}.agents input{width:auto}
+.item{border:1px solid var(--line);background:var(--panel2);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.k{font-family:var(--mono);font-size:11.5px;color:var(--muted);word-break:break-all}
+.st{font-size:11px;font-weight:700;border-radius:6px;padding:1px 7px;margin-left:6px}.SUPPORTED,.EXECUTED,.PASSED,.ok{background:#173a2d;color:var(--ok)}.GAP,.AWAITING_APPROVAL{background:#3d3218;color:var(--warn)}.REJECTED,.FAILED,.err{background:#3d1d24;color:var(--bad)}.APPROVED,.EXECUTING{background:#252d4d;color:#a9b5ff}
+.ref{font-family:var(--mono);font-size:11px;border:1px solid #3b3a6b;color:#c7c0ff;border-radius:6px;padding:0 6px;margin-right:4px;cursor:pointer;background:none}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:12px;margin-top:6px}.checks span:before{content:"✓ ";color:var(--ok)}.checks span.no:before{content:"✕ ";color:var(--bad)}
+.muted{color:var(--muted)}.small{font-size:12px}pre{white-space:pre-wrap;word-break:break-word;background:#0b0e16;border-radius:10px;padding:10px;font-size:12px;color:#cdd4ea;max-height:240px;overflow:auto}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body><main>
+<header>
+  <div><div class="ey">OPEN-SOURCE GOVERNED AGENT FRAMEWORK · MCP</div><h1>InfraAgentKit</h1>
+  <p class="sub">交通基础设施智能体开源框架：智能体卡片定义权限，工具注册定义能力，证据契约约束结论，人工关卡控制副作用，执行回执与独立核验证明结果，哈希链账本防篡改。</p></div>
+  <div class="badges" id="badges"></div>
+</header>
+<div class="flow"><div><b>Agent Card</b>卡片与权限</div><div><b>Route</b>按证据路由</div><div><b>Tools</b>只读取证</div><div><b>Evidence</b>证据契约</div><div><b>Human Gate</b>人工审批</div><div><b>Receipt</b>执行回执</div><div><b>Verifier</b>独立核验</div></div>
+<div class="grid">
+  <section class="card">
+    <h2>运行受治理的智能体</h2>
+    <textarea id="msg">P47 墩临边防护缺失，工人在高处作业未系安全带，下午还要继续施工。</textarea>
+    <div class="chips" id="samples"></div>
+    <h3>智能体（不选则按证据自动路由）</h3>
+    <div class="agents" id="agents"></div>
+    <div class="row"><button class="btn" id="runBtn" onclick="run()">运行</button><span class="muted small" id="runState"></span></div>
+    <h3>审批人</h3>
+    <input id="actor" value="项目经理 张工">
+    <p class="muted small">审批只能由具名的人完成；智能体、模型和 MCP 客户端都不能批准或执行。</p>
+  </section>
+  <section class="card" id="trace"><h2>运行轨迹</h2><p class="muted">点击“运行”查看：路由 → 工具调用（含输出摘要）→ 结论与证据 → 待审批动作 → 执行回执与核验。</p></section>
+</div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SAMPLES=[
+  ['临边高处作业','P47 墩临边防护缺失，工人在高处作业未系安全带，下午还要继续施工。'],
+  ['混凝土裂缝 NCR','Concrete crack found on pier P52 after formwork removal; inspection record attached.'],
+  ['变更与工期','分包商申请变更，要求增加锚栓并延长工期 10 天。'],
+  ['汽车吊吊装','Mobile crane lifting at station S12 tomorrow; crane certificate expired last week.'],
+  ['支座病害（运营）','Bridge bearing displacement and corrosion above the alert threshold at BRG-03.'],
+  ['干扰：无证据','I have no knowledge of this site, just saying hello.'],
+];
+let lastRun=null;
+async function api(path,opt){const r=await fetch(path,opt);const b=await r.json().catch(()=>({}));if(!r.ok)throw new Error(b.detail||r.status);return b}
+async function init(){
+  $('samples').innerHTML=SAMPLES.map(([t,m],i)=>`<button class="chip" onclick="pick(${i})">${esc(t)}</button>`).join('');
+  const agents=await api('/agents');
+  $('agents').innerHTML=agents.map(a=>`<label><input type="checkbox" value="${a.id}"> <b>${esc(a.name)}</b> <span class="k">${a.authority} · ${a.scope.domain}</span></label>`).join('');
+  badges();
+}
+async function badges(){const h=await api('/health');const v=await api('/ledger/verify');
+  $('badges').innerHTML=`<span class="badge">v${h.version}</span><span class="badge">${h.agents} 个智能体</span><span class="badge">${h.model==='configured'?'大模型规划':'确定性规则'}</span><span class="badge ${v.valid?'ok':'bad'}">账本 ${v.valid?'完整':'被篡改'} · ${v.entries} 条</span>`}
+function pick(i){$('msg').value=SAMPLES[i][1]}
+async function run(){
+  $('runBtn').disabled=true;$('runState').textContent='运行中…';
+  const ids=[...document.querySelectorAll('#agents input:checked')].map(x=>x.value);
+  try{lastRun=await api('/runs',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message:$('msg').value,agent_ids:ids.length?ids:null})});render()}
+  catch(e){$('trace').innerHTML=`<h2>运行轨迹</h2><p class="st err">${esc(e.message)}</p>`}
+  $('runBtn').disabled=false;$('runState').textContent='';badges();
+}
+async function refresh(){lastRun=await api('/runs/'+lastRun.run_id);render();badges()}
+function sourceText(ref){for(const c of lastRun.tool_calls){for(const h of (c.output?.hits||[])){if(h.ref===ref)return h}}return null}
+function showRef(ref){const h=sourceText(ref);if(h)alert(`${h.ref} · ${h.title} · v${h.version}\nSHA-256 ${h.digest.slice(0,16)}…\n\n${h.text}`)}
+function render(){
+  const r=lastRun;const fv=r.finding_verification;
+  let html=`<h2>运行轨迹 <span class="k">${r.run_id}</span></h2>
+  <p class="small muted">${r.routed?'按证据自动路由到':'指定智能体'}：<b style="color:var(--text)">${r.agents.join('、')}</b> · 结论核验 <span class="st ${fv.passed?'ok':'err'}">${fv.passed?'通过':'未通过'}</span></p>
+  <h3>工具调用（只读，输出可校验）</h3>`+r.tool_calls.map(c=>`<div class="item"><b>${esc(c.agent_id)}</b> → <code>${esc(c.tool)}</code> <span class="k">${c.planned_by==='model'?'模型规划':'规则规划'}</span>${c.error?`<span class="st err">${esc(c.error)}</span>`:''}
+    <div class="k">${c.tool==='risk.assess'?`风险 ${esc(c.output?.risk)} · 信号 ${esc((c.output?.signals||[]).join(', ')||'无')}`:c.tool==='knowledge.search'?`命中 ${(c.output?.hits||[]).map(h=>h.ref+' ('+h.score+')').join('、')||'无（低于阈值不算证据）'}`:''}</div>
+    <div class="k">output sha256 ${esc((c.output_digest||'').slice(0,24))}…</div></div>`).join('')
+  +`<h3>结论（证据契约）</h3>`+r.findings.map(f=>`<div class="item"><b>${esc(f.agent_id)}</b><span class="st ${f.status}">${f.status}</span><span class="k"> 风险 ${f.risk} · 置信度 ${f.confidence} · ${f.composed_by==='model'?'模型撰写':'规则撰写'}</span>
+    <p style="margin:6px 0">${esc(f.claim)}</p><div>${f.evidence_refs.map(x=>`<button class="ref" onclick="showRef('${esc(x)}')">${esc(x)}</button>`).join('')}</div>
+    ${f.questions.length?`<p class="small" style="color:var(--warn)">需要人补充：${esc(f.questions.join('；'))}</p>`:''}</div>`).join('')
+  +`<h3>副作用动作（人工关卡）</h3>`+(r.actions.length?r.actions.map(a=>action(a)).join(''):'<p class="muted small">没有动作：只有有证据的结论才会提出副作用。</p>');
+  $('trace').innerHTML=html;
+}
+function action(a){
+  const rec=lastRun.receipts.filter(x=>x.action_id===a.id);const ver=rec.find(x=>x.kind==='verification');const exe=rec.find(x=>x.kind==='execution');
+  return `<div class="item"><b>${esc(a.tool)}</b> <span class="k">${a.side_effect}</span><span class="st ${a.status}">${a.status}</span>
+  <div class="k">${a.id} · ${esc(a.reason)}${a.approved_by?` · 批准人 ${esc(a.approved_by)}（${a.approval_kind==='human'?'人工':'策略'}）`:''}</div>
+  <div class="row">${a.status==='AWAITING_APPROVAL'?`<button class="btn" onclick="decide('${a.id}','approve')">批准</button><button class="btn bad" onclick="decide('${a.id}','reject')">驳回</button>`:''}
+  <button class="btn alt" onclick="execute('${a.id}')" ${a.status==='EXECUTED'||a.status==='REJECTED'?'disabled':''}>执行${a.status==='AWAITING_APPROVAL'?'（未批准会被拒绝）':''}</button></div>
+  ${exe?`<pre>${esc(JSON.stringify(exe.output,null,2))}</pre>`:''}
+  ${ver?`<div class="small">独立核验 <span class="st ${ver.passed?'PASSED':'FAILED'}">${ver.passed?'PASSED':'FAILED'}</span></div><div class="checks">${Object.entries(ver.checks).map(([k,v])=>`<span class="${v?'':'no'}">${esc(k)}</span>`).join('')}</div>`:''}
+  <p class="small" id="msg-${a.id}" style="color:var(--bad)"></p></div>`}
+async function decide(id,kind){try{await api(`/actions/${id}/${kind}`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({actor:$('actor').value})});await refresh()}catch(e){$('msg-'+id).textContent=e.message}}
+async function execute(id){try{await api(`/actions/${id}/execute`,{method:'POST'});await refresh()}catch(e){$('msg-'+id).textContent='已拒绝：'+e.message}}
+init();
+</script>
+</body></html>
