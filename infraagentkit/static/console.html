@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a16">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect rx='16' width='64' height='64' fill='%238e7cff'/><text x='32' y='41' text-anchor='middle' font-size='25' font-family='Arial' font-weight='700' fill='white'>IA</text></svg>">
 <title>InfraAgentKit 控制台</title>
 <style>
 :root{--bg:#0c0f17;--panel:#141926;--panel2:#1a2132;--line:#283149;--text:#eef2fb;--muted:#93a0bb;--accent:#8b7bff;--ok:#5fd6a1;--warn:#ffc46b;--bad:#ff7c86;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
@@ -25,12 +27,43 @@ textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line)
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:12px;margin-top:6px}.checks span:before{content:"✓ ";color:var(--ok)}.checks span.no:before{content:"✕ ";color:var(--bad)}
 .muted{color:var(--muted)}.small{font-size:12px}pre{white-space:pre-wrap;word-break:break-word;background:#0b0e16;border-radius:10px;padding:10px;font-size:12px;color:#cdd4ea;max-height:240px;overflow:auto}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
+/* Competition UI 3.0 ------------------------------------------------------ */
+:root{--bg:#070914;--panel:rgba(18,22,39,.88);--panel2:rgba(27,33,56,.88);--line:rgba(142,128,255,.2);--text:#f7f8ff;--muted:#9da8c7;--accent:#8e7cff;--accent2:#48d7ff;--ok:#5de0a8;--warn:#ffd074;--bad:#ff7d93;--shadow:0 24px 70px rgba(0,0,0,.28)}
+html{scroll-behavior:smooth}body{min-height:100vh;background:
+radial-gradient(circle at 14% -10%,rgba(112,82,255,.24),transparent 31rem),
+radial-gradient(circle at 94% 12%,rgba(45,200,255,.14),transparent 27rem),
+linear-gradient(180deg,#080a16 0%,#090c18 48%,#070914 100%);letter-spacing:.005em}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,#000,transparent 75%)}
+.appbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(7,9,20,.76);backdrop-filter:blur(18px)}
+.appbar-inner{max-width:1380px;margin:auto;height:58px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.04em}.brand-mark{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 32px rgba(115,100,255,.4);color:#080a16;font:900 12px var(--mono)}.brand small{display:block;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.16em}
+.app-status{display:flex;align-items:center;gap:8px;color:#b9c3de;font-size:11px;font-weight:700;letter-spacing:.1em}.pulse{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 5px rgba(93,224,168,.1),0 0 16px var(--ok)}
+main{max-width:1380px;padding:28px 24px 72px;position:relative}
+header.hero{position:relative;overflow:hidden;align-items:center;padding:32px 34px;border:1px solid rgba(142,128,255,.22);border-radius:24px;background:linear-gradient(125deg,rgba(33,28,67,.92),rgba(14,21,39,.8));box-shadow:var(--shadow)}
+header.hero:after{content:"AI";position:absolute;right:1.5rem;top:-3.5rem;font:900 13rem/1 var(--mono);color:rgba(142,128,255,.045);pointer-events:none}
+.hero-copy{position:relative;z-index:1;max-width:850px}.ey{color:#a99cff;letter-spacing:.18em}.hero h1{font-size:clamp(36px,5vw,58px);letter-spacing:-.045em;line-height:1;margin:10px 0 14px}.hero h1 span{color:var(--accent2)}.sub{font-size:15px;line-height:1.75;max-width:840px}
+.hero-notes{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.hero-note{padding:5px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;color:#cbd3e8;background:rgba(255,255,255,.035);font-size:11px}.hero-note:before{content:"✓";color:var(--ok);margin-right:6px}
+.badges{position:relative;z-index:1;max-width:340px;justify-content:flex-end}.badge{background:rgba(8,10,22,.45);border-color:rgba(255,255,255,.12);color:#bec7df;padding:7px 12px}.badge.ok{box-shadow:inset 0 0 20px rgba(93,224,168,.05)}
+.flow{counter-reset:flow;position:relative;margin:18px 0 20px;gap:8px}.flow:before{content:"";position:absolute;left:5%;right:5%;top:25px;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);opacity:.32}.flow div{counter-increment:flow;position:relative;min-height:72px;padding:14px 8px 9px;border-color:rgba(255,255,255,.09);border-radius:14px;background:rgba(17,21,36,.72);backdrop-filter:blur(8px);transition:.2s ease}.flow div:hover{transform:translateY(-2px);border-color:rgba(142,128,255,.45);background:rgba(29,34,57,.92)}.flow div:before{content:"0" counter(flow);display:block;width:24px;height:24px;margin:0 auto 7px;border-radius:8px;background:#171a30;border:1px solid rgba(142,128,255,.35);color:#b8afff;font:700 10px/22px var(--mono)}.flow b{font-size:12px;letter-spacing:.02em}
+.grid{grid-template-columns:minmax(330px,390px) minmax(0,1fr);gap:18px}.card{position:relative;border-color:rgba(255,255,255,.09);border-radius:20px;padding:20px;background:linear-gradient(160deg,rgba(20,25,43,.94),rgba(13,17,30,.92));box-shadow:0 16px 48px rgba(0,0,0,.18);backdrop-filter:blur(12px)}.card:before{content:"";position:absolute;left:18px;right:18px;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(142,128,255,.65),transparent)}
+h2{font-size:16px;letter-spacing:-.01em}h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em}
+textarea,input,select{background:rgba(6,8,17,.72);border-color:rgba(255,255,255,.11);box-shadow:inset 0 1px 0 rgba(255,255,255,.025);transition:border-color .2s,box-shadow .2s}textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(142,124,255,.12)}
+.btn,.chip,.ref{transition:transform .18s,filter .18s,border-color .18s}.btn{min-height:40px;border-radius:11px;background:linear-gradient(135deg,#7563ff,#9a74ff);box-shadow:0 9px 24px rgba(110,88,255,.22)}.btn:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.08)}.btn:focus-visible,.chip:focus-visible,.ref:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}.btn.alt{box-shadow:none;background:rgba(255,255,255,.045)}.chip{padding:6px 11px;background:rgba(255,255,255,.035)}.chip:hover{border-color:rgba(142,128,255,.55);background:rgba(142,128,255,.08)}
+.agents label{margin:2px 0;padding:8px 9px;border:1px solid transparent;border-radius:10px;transition:.18s}.agents label:hover{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07)}.agents input{accent-color:var(--accent)}
+.item{padding:13px 14px;border-color:rgba(255,255,255,.085);background:rgba(255,255,255,.035);box-shadow:inset 3px 0 0 rgba(142,128,255,.16)}pre{border:1px solid rgba(255,255,255,.06)}.checks{padding:9px 0}.ref{padding:2px 7px;background:rgba(142,128,255,.07)}
+footer{display:flex;justify-content:space-between;gap:12px;margin-top:24px;padding:16px 2px 0;border-top:1px solid rgba(255,255,255,.07);color:#6f7a99;font:11px var(--mono);letter-spacing:.05em}
+@media(max-width:980px){header.hero{align-items:flex-start}.badges{max-width:none;justify-content:flex-start}.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:640px){.appbar-inner{height:52px;padding:0 15px}.app-status{font-size:9px}.brand small{display:none}main{padding:16px 14px 56px}header.hero{padding:24px 20px;border-radius:20px}.hero h1{font-size:36px}.sub{font-size:13px}.badges{gap:6px}.badge{padding:5px 9px}.flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.flow:before{display:none}.flow div{flex:0 0 128px;scroll-snap-align:start}.card{padding:16px;border-radius:17px}.row{flex-wrap:wrap}.row>*{max-width:100%}.btn{min-height:42px}.checks{grid-template-columns:1fr}footer{display:block;line-height:1.8}footer span{display:block}footer span+span{margin-top:6px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
-<body><main>
-<header>
-  <div><div class="ey">OPEN-SOURCE GOVERNED AGENT FRAMEWORK · MCP</div><h1>InfraAgentKit</h1>
-  <p class="sub">交通基础设施智能体开源框架：智能体卡片定义权限，工具注册定义能力，证据契约约束结论，人工关卡控制副作用，执行回执与独立核验证明结果，哈希链账本防篡改。</p></div>
+<body>
+<nav class="appbar"><div class="appbar-inner"><div class="brand"><span class="brand-mark">IA</span><div>InfraAgentKit<small>GOVERNED AGENT RUNTIME</small></div></div><div class="app-status"><span class="pulse"></span>EVIDENCE-FIRST WORKSPACE</div></div></nav>
+<main>
+<header class="hero">
+  <div class="hero-copy"><div class="ey">OPEN-SOURCE GOVERNED AGENT FRAMEWORK · MCP</div><h1>InfraAgent<span>Kit</span></h1>
+  <p class="sub">交通基础设施智能体开源框架：智能体卡片定义权限，工具注册定义能力，证据契约约束结论，人工关卡控制副作用，执行回执与独立核验证明结果，哈希链账本防篡改。</p>
+  <div class="hero-notes"><span class="hero-note">权限最小化</span><span class="hero-note">引用可追溯</span><span class="hero-note">人工控制副作用</span></div></div>
   <div class="badges" id="badges"></div>
 </header>
 <div class="flow"><div><b>Agent Card</b>卡片与权限</div><div><b>Route</b>按证据路由</div><div><b>Tools</b>只读取证</div><div><b>Evidence</b>证据契约</div><div><b>Human Gate</b>人工审批</div><div><b>Receipt</b>执行回执</div><div><b>Verifier</b>独立核验</div></div>
@@ -41,13 +74,14 @@ textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line)
     <div class="chips" id="samples"></div>
     <h3>智能体（不选则按证据自动路由）</h3>
     <div class="agents" id="agents"></div>
-    <div class="row"><button class="btn" id="runBtn" onclick="run()">运行</button><span class="muted small" id="runState"></span></div>
+    <div class="row"><button class="btn" id="runBtn" onclick="run()">运行智能体</button><span class="muted small" id="runState" aria-live="polite"></span></div>
     <h3>审批人</h3>
     <input id="actor" value="项目经理 张工">
     <p class="muted small">审批只能由具名的人完成；智能体、模型和 MCP 客户端都不能批准或执行。</p>
   </section>
   <section class="card" id="trace"><h2>运行轨迹</h2><p class="muted">点击“运行”查看：路由 → 工具调用（含输出摘要）→ 结论与证据 → 待审批动作 → 执行回执与核验。</p></section>
 </div>
+<footer><span>C4AI THREE-TRACK SUITE · OPEN-SOURCE TRACK</span><span>AI RECOMMENDS → HUMAN APPROVES → TOOL EXECUTES → VERIFIER CHECKS</span></footer>
 </main>
 <script>
 const $=id=>document.getElementById(id);
