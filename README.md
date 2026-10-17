@@ -30,7 +30,7 @@ pip install -r requirements.txt && pip install -e .
 infra-agent doctor                 # 检查卡片、工具、知识包和 MCP SDK
 infra-agent serve --port 8103      # 打开 http://127.0.0.1:8103 控制台
 infra-agent eval                   # 35 项基准测试（含 11 项治理攻击）
-pytest -q                          # 27 项单元与集成测试
+pytest -q                          # 36 项单元与集成测试
 ```
 
 命令行完成一次完整的闭环：

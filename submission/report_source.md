@@ -21,7 +21,7 @@
 - **成果类型**：开源工具软件与开发框架，附开源技能模块（工具）、知识包和基准数据集，许可证 Apache-2.0。
 - **解决的问题**：交通行业把大模型智能体用于施工安全、质量、合同、设备和养护时，最大的障碍不是“能不能回答”，而是“结论有没有依据、谁授权它动手、动手后能不能证明”。InfraAgentKit 把这些要求变成框架的默认行为。
 - **核心能力**：智能体卡片（声明权限）、工具注册（声明副作用）、证据契约（结论只能引用本次真实检索到的来源）、人工关卡（副作用只能以待审批意图出现）、执行回执与 8 项独立核验、哈希链审计账本、官方 MCP SDK v2 服务。
-- **验证**：35 项基准测试（含 11 项治理攻击）与 27 项单元和集成测试全部通过；MCP 服务已用官方客户端通过进程内和 stdio 两种方式实测。
+- **验证**：35 项基准测试（含 11 项治理攻击）与 36 项单元和集成测试全部通过；MCP 服务已用官方客户端通过进程内和 stdio 两种方式实测。
 
 InfraAgentKit 面向的是交通行业共性难题中的“施工安全风险感知”及其背后更普遍的问题：智能体越来越多地参与现场与业务流程，但它的结论缺少可核验的依据，它的动作缺少授权边界，它的执行缺少事后证明。框架把推理权和执行权在结构上分开：分析阶段只能调用只读工具；写操作和对外动作只能生成待审批意图，由具名的人批准后，按提出时的卡片复核策略、只执行被批准的原参数；每一步写入哈希链账本，任何事后篡改都能被检出。
 
@@ -77,6 +77,7 @@ InfraAgentKit 定位为交通行业“受治理智能体”的开源基础框架
 - Python 3.11 及以上；核心依赖 pydantic、PyYAML、httpx；Web 运行时依赖 FastAPI 与 Uvicorn；MCP 依赖官方 MCP Python SDK v2。
 - 安装：`pip install -r requirements.txt && pip install -e .`；也可按需安装 `infraagentkit[web]`、`infraagentkit[mcp]`。
 - 运行：`infra-agent serve`（控制台与 API）、`infra-agent mcp-serve`（MCP）；提供 Dockerfile 与 docker-compose。
+- 在线演示：`https://infraagentkit-production.up.railway.app`。Railway 生产环境将 SQLite 数据库置于独立的 `/data` 持久化卷；模型地址、模型名和密钥同时配置时启用 OpenAI-compatible 增强，否则保持确定性运行。
 
 ### （四）对外调用接口
 
@@ -256,7 +257,7 @@ MCP 刻意不暴露批准、驳回和执行：MCP 宿主是自动化客户端，
 | 业务模式突破性 | 以开源框架提供行业默认的治理能力与评测基准 |
 | 技术路线合理性 | 第二、三章架构与契约，`SPEC.md` |
 | 数据支撑有效性 | 双语知识包（13 条来源，逐条内容摘要）、35 项基准数据 |
-| 模型/算法性能 | 第五章基准与 27 项测试 |
+| 模型/算法性能 | 第五章基准与 36 项测试 |
 | 开源材料质量 | 文档、许可证、CI、示例、可复现命令 |
 | 可扩展性 | 工具注册扩展、卡片扩展、连接器路线 |
 
@@ -268,6 +269,6 @@ MCP 刻意不暴露批准、驳回和执行：MCP 宿主是自动化客户端，
 
 环境检查：`infra-agent doctor`；基准测试：`infra-agent eval`；自动化测试：`pytest -q`。
 
-控制台与 API：`infra-agent serve --port 8103`，浏览器打开 `http://127.0.0.1:8103`。
+控制台与 API：`infra-agent serve --port 8103`，本地浏览器打开 `http://127.0.0.1:8103`；在线演示地址为 `https://infraagentkit-production.up.railway.app`。
 
 MCP 服务：`infra-agent mcp-serve`（stdio）或 `infra-agent mcp-serve --transport streamable-http`。
