@@ -136,7 +136,7 @@ class GovernedRuntime:
                 for tool, args in model_plan(self.model, card, self.registry, message) or []:
                     if (tool, args) not in [(t, a) for t, a, _ in planned]:
                         planned.append((tool, args, "model"))
-            outputs, risk = [], "LOW"
+            outputs, risk, grounded_by_message = [], "LOW", False
             for tool, args, planned_by in planned[: card.limits.max_tool_calls]:
                 spec = self.registry.get(tool)
                 decision = policy.for_analysis(card, spec)
@@ -155,9 +155,13 @@ class GovernedRuntime:
                 if call.output is not None:
                     if spec.evidence_output:
                         outputs.append(call.output)
+                        if planned_by == "rules" and eligible_hits(card, [call.output]):
+                            grounded_by_message = True
                     if tool == "risk.assess":
                         risk = higher(risk, call.output.get("risk", "LOW"))  # never lowered by a reworded assessment
-            hits = eligible_hits(card, outputs)
+            # A model-added search can widen the sources of a grounded situation, but it cannot ground one:
+            # if the user's own words retrieve no governed evidence, the finding stays a GAP.
+            hits = eligible_hits(card, outputs) if grounded_by_message else []
             finding = (model_finding(self.model, card, message, risk, hits) if self.model is not None else None) \
                 or rule_finding(card, message, risk, hits)
             findings.append(finding)

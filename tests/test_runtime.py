@@ -133,3 +133,10 @@ def test_model_cannot_invent_a_jurisdiction(runtime):
     run = runtime.run("Subcontractor requests a variation and an extension of time", ["contract-agent"])
     call = next(c for c in run["tool_calls"] if c["tool"] == "knowledge.search" and c["planned_by"] == "model")
     assert call["arguments"]["jurisdiction"] == ""
+
+
+def test_model_search_cannot_ground_an_ungrounded_message(runtime):
+    runtime.model = Hostile(plan={"calls": [{"tool": "knowledge.search", "arguments_json": '{"query":"work at height edge protection"}'}]},
+                            finding={"claim": "Edge protection is required.", "evidence_refs": ["HSE-WAH-001"], "gaps": [], "questions": []})
+    run = runtime.run("会议改到周五下午", ["hse-agent"])
+    assert run["findings"][0]["status"] == "GAP" and run["actions"] == []

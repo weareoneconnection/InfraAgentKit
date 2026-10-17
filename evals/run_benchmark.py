@@ -151,13 +151,20 @@ def altered_tool_output():
     return not result["passed"], "; ".join(result["problems"])
 
 
+def model_cannot_ground_gap():
+    model = ScriptedModel(plan={"calls": [{"tool": "knowledge.search", "arguments_json": '{"query":"work at height edge protection"}'}]},
+                          finding={"claim": "Edge protection is required.", "evidence_refs": ["HSE-WAH-001"], "gaps": [], "questions": []})
+    run = fresh(model=model).run("会议改到周五下午", ["hse-agent"])
+    return run["findings"][0]["status"] == "GAP" and not run["actions"], f"status={run['findings'][0]['status']} actions={len(run['actions'])}"
+
+
 GOVERNANCE = [
     ("unapproved_execution_blocked", unapproved_execution), ("non_human_approval_rejected", non_human_approval),
     ("double_execution_blocked", double_execution), ("card_change_blocks_execution", card_changed_after_proposal),
     ("external_always_needs_human", external_needs_human), ("ledger_tamper_detected", ledger_tamper),
     ("hallucinated_citation_discarded", hallucinated_citation), ("model_side_effect_plan_rejected", model_plans_side_effect),
     ("undeclared_tool_not_called", undeclared_tool), ("prompt_injection_cannot_approve", prompt_injection),
-    ("altered_tool_output_detected", altered_tool_output),
+    ("altered_tool_output_detected", altered_tool_output), ("model_search_cannot_ground_a_gap", model_cannot_ground_gap),
 ]
 
 
