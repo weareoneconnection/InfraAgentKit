@@ -9,12 +9,13 @@ appends every step to the hash-chained ledger.
 """
 from __future__ import annotations
 
+import os
 import time
 import uuid
 from pathlib import Path
 
 from . import policy
-from .cards import AgentCard, lint, load_cards
+from .cards import AgentCard, lint_catalog, load_cards
 from .contracts import ActionIntent, ExecutionReceipt, ToolCall
 from .llm import Model, from_env
 from .reasoning import eligible_hits, model_finding, model_plan, rule_finding, rule_plan
@@ -29,6 +30,9 @@ RISK_ORDER = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
 def higher(a: str, b: str) -> str:
     return max(a, b, key=lambda r: RISK_ORDER.index(r) if r in RISK_ORDER else 0)
 ROUTE_RATIO = 0.6
+CONTROL_ALWAYS = ["data-intake-triage-agent", "project-orchestrator-agent", "evidence-provenance-agent", "independent-verifier-agent"]
+SPATIAL_SIGNALS = ("bim", "gis", "ifc", "gltf", "3d tiles", "geojson", "wms", "digital twin", "数字孪生", "模型构件", "空间定位")
+COUNTRY_SIGNALS = ("country", "jurisdiction", "permit", "law", "local standard", "国家包", "属地", "法规", "许可证", "当地标准")
 
 
 class GovernanceError(PermissionError):
@@ -46,9 +50,14 @@ class GovernedRuntime:
         self.cards = {c.id: c for c in cards}
         self.store = store or Store()
         self.model = model
-        problems = [issue for card in cards for issue in lint(card, self.registry)]
+        problems = lint_catalog(cards, self.registry)
         if problems:
             raise ValueError("invalid agent cards: " + "; ".join(problems))
+        try:
+            configured = int(os.getenv("INFRAAGENTKIT_MAX_ACTIVE_AGENTS", "5"))
+        except ValueError:
+            configured = 5
+        self.max_active_agents = min(8, max(1, configured))
 
     @classmethod
     def from_directory(cls, path: str | Path, **kwargs) -> "GovernedRuntime":
@@ -71,18 +80,47 @@ class GovernedRuntime:
         domains = [d for d, score in sorted(best.items(), key=lambda kv: -kv[1]) if score >= ROUTE_RATIO * top]
         chosen = []
         for domain in domains:
-            chosen += [c.id for c in self.cards.values() if (c.scope.domain == domain or domain in c.evidence.domains) and c.id not in chosen]
+            chosen += [c.id for c in self.cards.values() if c.tier == "domain" and
+                       (c.scope.domain == domain or domain in c.evidence.domains) and c.id not in chosen]
         if chosen:
-            return chosen[:3]
+            return chosen[: self.max_active_agents]
         # Nothing governed matched: one advisory agent answers, and it will report a GAP.
-        advisory = sorted(c.id for c in self.cards.values() if c.authority == "advisory")
+        advisory = sorted(c.id for c in self.cards.values() if c.tier == "domain" and c.authority == "advisory")
         return [advisory[0] if advisory else next(iter(self.cards))]
+
+    def compose_team(self, message: str, agent_ids: list[str] | None = None) -> dict:
+        members = list(dict.fromkeys(agent_ids or self.route(message)))[: self.max_active_agents]
+        controls = [aid for aid in CONTROL_ALWAYS if aid in self.cards]
+        lower = message.lower()
+        if any(signal in lower for signal in SPATIAL_SIGNALS) and "digital-twin-spatial-agent" in self.cards:
+            controls.append("digital-twin-spatial-agent")
+        if any(signal in lower for signal in COUNTRY_SIGNALS) and "country-localization-agent" in self.cards:
+            controls.append("country-localization-agent")
+        return {
+            "lead": members[0] if members else None,
+            "support": members[1:],
+            "control": list(dict.fromkeys(controls)),
+            "members": members,
+            "max_active": self.max_active_agents,
+            "mode": "dynamic" if agent_ids is None else "user_selected",
+        }
+
+    def catalogue(self) -> list[dict]:
+        return [{**card.model_dump(), "fingerprint": card.fingerprint()} for card in self.cards.values()]
+
+    def coverage(self) -> dict:
+        tiers = {tier: sum(c.tier == tier for c in self.cards.values()) for tier in ("control", "domain", "assurance")}
+        lifecycles = sorted({stage for card in self.cards.values() for stage in card.scope.lifecycle})
+        domains = sorted({card.scope.domain for card in self.cards.values() if card.tier == "domain"})
+        return {"agents": len(self.cards), "tiers": tiers, "domain_coverage": len(domains), "domains": domains,
+                "lifecycle_coverage": lifecycles, "max_active_agents": self.max_active_agents}
 
     # --- analysis --------------------------------------------------------------------
     def run(self, message: str, agent_ids: list[str] | None = None) -> dict:
         run_id = "RUN-" + uuid.uuid4().hex[:10].upper()
         routed = agent_ids is None
-        agent_ids = agent_ids or self.route(message)
+        team = self.compose_team(message, agent_ids)
+        agent_ids = team["members"]
         unknown = [a for a in agent_ids if a not in self.cards]
         if unknown:
             raise KeyError(f"unknown agent(s): {unknown}")
@@ -126,15 +164,38 @@ class GovernedRuntime:
             actions.extend(self._propose(run_id, card, finding))
         payload = {
             "run_id": run_id, "message": message, "agents": agent_ids, "routed": routed,
+            "team": team,
             "tool_calls": [c.model_dump() for c in calls], "findings": [f.model_dump() for f in findings],
             "action_ids": [a.id for a in actions],
             "governance": {"analysis_tools": "read_only", "side_effects": "intents_only",
                            "self_approval": "forbidden", "unsupported_findings_trigger_actions": False},
         }
+        payload["handoffs"] = self._handoffs(team, findings)
+        payload["synthesis"] = self._synthesise(team, findings)
         evidence_tools = {t for t in self.registry.names() if self.registry.get(t).evidence_output}
         payload["finding_verification"] = verify_findings(payload, evidence_tools)
         self.store.save_run(run_id, message, "AWAITING_APPROVAL" if any(a.status == "AWAITING_APPROVAL" for a in actions) else "ANALYSED", payload)
         return self.store.get_run(run_id)
+
+    def _handoffs(self, team: dict, findings: list) -> list[dict]:
+        lead = team.get("lead")
+        return [{"from": finding.agent_id, "to": lead, "contract": "finding+evidence+gaps+questions",
+                 "status": "READY" if finding.status == "SUPPORTED" else "NEEDS_INPUT"}
+                for finding in findings if finding.agent_id != lead]
+
+    def _synthesise(self, team: dict, findings: list) -> dict:
+        supported = [finding for finding in findings if finding.status == "SUPPORTED"]
+        gaps = [finding for finding in findings if finding.status == "GAP"]
+        risks = [finding.risk for finding in findings]
+        highest = max(risks, key=lambda r: RISK_ORDER.index(r) if r in RISK_ORDER else 0, default="LOW")
+        refs = list(dict.fromkeys(ref for finding in supported for ref in finding.evidence_refs))
+        conflicts = []
+        if len(set(risks)) > 1:
+            conflicts.append("specialists reported different risk levels; the highest governed risk controls")
+        return {"status": "SUPPORTED" if supported else "GAP", "lead": team.get("lead"), "risk": highest,
+                "contributors": [finding.agent_id for finding in supported], "evidence_refs": refs,
+                "gap_agents": [finding.agent_id for finding in gaps], "conflicts": conflicts,
+                "human_decision_required": True}
 
     def _propose(self, run_id: str, card: AgentCard, finding) -> list[ActionIntent]:
         out = []

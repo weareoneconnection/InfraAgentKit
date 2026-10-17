@@ -122,11 +122,53 @@ def notification_send(channel: str, message: str) -> dict:
     return {"channel": channel, "message": message, "status": "SIMULATED_NOT_SENT", "external_delivery_performed": False}
 
 
+def _connector_preview(system: str, query: str, records: list[dict]) -> dict:
+    """Read-only synthetic connector used to demonstrate the governed adapter contract."""
+    return {"system": system, "query": query, "mode": "SYNTHETIC_READ_ONLY_PREVIEW", "records": records,
+            "external_write_performed": False}
+
+
+def schedule_lookup(activity: str) -> dict:
+    return _connector_preview("P6/Schedule", activity, [{"activity": "CIV-P47-240", "status": "IN_PROGRESS",
+                                                       "float_days": 3, "data_date": "2026-10-15"}])
+
+
+def cost_lookup(cost_code: str) -> dict:
+    return _connector_preview("ERP/Cost", cost_code, [{"cost_code": "CIV-4300", "budget": 1250000,
+                                                    "committed": 910000, "forecast": 1315000, "currency": "USD"}])
+
+
+def procurement_lookup(package: str) -> dict:
+    return _connector_preview("Procurement", package, [{"package": "PKG-BRG-03", "status": "AT_RISK",
+                                                       "required_on_site": "2026-11-20", "forecast_delivery": "2026-11-27"}])
+
+
+def document_lookup(reference: str) -> dict:
+    return _connector_preview("Document Control", reference, [{"reference": "GIA-DRG-CIV-0042", "revision": "C",
+                                                            "status": "APPROVED_FOR_CONSTRUCTION"}])
+
+
+def twin_locate(asset_id: str) -> dict:
+    return _connector_preview("BIM/GIS/Digital Twin", asset_id, [{"asset_id": "P47", "ifc_guid": "2M9xP47DemoGuid",
+                                                               "tileset": "rail-corridor-a", "sensor_links": 2}])
+
+
+def telemetry_read(sensor_id: str) -> dict:
+    return _connector_preview("IoT/SCADA", sensor_id, [{"sensor_id": "BRG03-DISP-X", "value": 4.2,
+                                                    "unit": "mm", "quality": "GOOD", "timestamp": "2026-10-17T12:00:00Z"}])
+
+
 def default_registry(index: KnowledgeIndex | None = None) -> ToolRegistry:
     registry = ToolRegistry()
     registry.register("knowledge.search", "Search governed engineering knowledge packs (BM25, bilingual)",
                       make_knowledge_search(index or KnowledgeIndex(load_packs())), evidence_output=True)
     registry.register("risk.assess", "Assess infrastructure event risk from text signals", risk_assess)
+    registry.register("schedule.lookup", "Read a governed P6/schedule preview", schedule_lookup)
+    registry.register("cost.lookup", "Read a governed ERP cost preview", cost_lookup)
+    registry.register("procurement.lookup", "Read a governed procurement preview", procurement_lookup)
+    registry.register("document.lookup", "Read a governed document-control preview", document_lookup)
+    registry.register("twin.locate", "Locate assets and linked sensors in BIM/GIS/digital-twin data", twin_locate)
+    registry.register("telemetry.read", "Read governed IoT/SCADA telemetry preview", telemetry_read)
     registry.register("document.draft", "Create a governed draft document (never sent)", draft_document, side_effect="write")
     registry.register("notification.send", "External notification adapter (simulated in the reference kit)",
                       notification_send, side_effect="external")

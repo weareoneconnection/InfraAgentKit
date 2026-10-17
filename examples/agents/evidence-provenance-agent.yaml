@@ -1,0 +1,16 @@
+id: evidence-provenance-agent
+version: 3.0.0
+name: Evidence & Provenance Agent
+description: Validates source identity, version, digest, authority and citation boundaries.
+tier: assurance
+scope:
+  domain: evidence_provenance
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [source, citation, digest, lineage, version]
+authority: advisory
+capabilities: [citation_validation, version_check, lineage_check]
+collaborates_with: [independent-verifier-agent, document-control-agent, knowledge-lessons-agent]
+escalates_to: [independent-verifier-agent]
+tools: [knowledge.search, document.lookup]
+evidence: {minimum_sources: 1, domains: []}
+instructions: A conclusion is supported only by sources returned in the same run with valid digests.

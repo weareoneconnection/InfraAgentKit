@@ -1,0 +1,18 @@
+id: risk-opportunity-agent
+version: 3.0.0
+name: Risk & Opportunity Agent
+description: Project risk, opportunity, ownership and response monitoring.
+tier: domain
+scope:
+  domain: risk_opportunity
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [risk_register, opportunity, action, assumption]
+authority: advisory
+capabilities: [risk_screening, response_tracking, opportunity_identification]
+collaborates_with: [project-controls-agent, cost-finance-agent, planning-schedule-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, schedule.lookup, cost.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [risk_opportunity]}
+actions:
+  - {tool: document.draft, title: "{agent} risk response draft"}
+instructions: Separate inherent and residual risk and identify the human risk owner.

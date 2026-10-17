@@ -2,11 +2,16 @@ id: contract-agent
 version: 2.0.0
 name: Contract Agent
 description: Variations, extension-of-time notices and controlled correspondence.
+tier: domain
 scope:
   domain: contract
   lifecycle: [procurement, construction]
+  data_classes: [contract, correspondence, change, schedule]
 authority: advisory
-tools: [knowledge.search, document.draft]
+capabilities: [obligation_review, notice_drafting, commercial_risk_screening]
+collaborates_with: [claims-disputes-agent, planning-schedule-agent, cost-finance-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, schedule.lookup, document.draft]
 evidence:
   minimum_sources: 1
   domains: [contract]

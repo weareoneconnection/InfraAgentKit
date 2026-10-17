@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .cards import AgentCard, lint, load_cards
+from .cards import AgentCard, lint, lint_catalog, load_cards
 from .knowledge import load_packs
 from .tools import default_registry
 
@@ -31,7 +31,7 @@ def cmd_doctor(args) -> int:
     problems, cards = [], []
     try:
         cards = load_cards(args.agents)
-        problems = [p for c in cards for p in lint(c, registry)]
+        problems = lint_catalog(cards, registry)
     except Exception as exc:  # report, do not crash
         problems.append(str(exc))
     try:
@@ -40,7 +40,10 @@ def cmd_doctor(args) -> int:
     except ImportError:
         mcp_ok = False
     _print({"status": "ok" if not problems else "failed", "version": __version__, "python": sys.version.split()[0],
-            "agents": [c.id for c in cards], "tools": registry.names(), "knowledge_sources": len(load_packs()),
+            "agents": [c.id for c in cards], "agent_tiers": {tier: sum(c.tier == tier for c in cards)
+                                                               for tier in ("control", "domain", "assurance")},
+            "domain_coverage": len({c.scope.domain for c in cards if c.tier == "domain"}),
+            "tools": registry.names(), "knowledge_sources": len(load_packs()),
             "mcp_sdk": mcp_ok, "problems": problems})
     return 0 if not problems else 1
 
@@ -70,7 +73,7 @@ def cmd_init(args) -> int:
 
 def cmd_run(args) -> int:
     run = _runtime(args).run(args.message, args.agent or None)
-    _print({k: run[k] for k in ("run_id", "agents", "findings", "actions", "finding_verification")})
+    _print({k: run[k] for k in ("run_id", "team", "agents", "findings", "handoffs", "synthesis", "actions", "finding_verification")})
     return 0
 
 

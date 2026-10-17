@@ -1,0 +1,16 @@
+id: project-orchestrator-agent
+version: 3.0.0
+name: Project Orchestrator Agent
+description: Forms a lead-and-support specialist team and packages a decision brief.
+tier: control
+scope:
+  domain: orchestration
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [case, task, finding, decision]
+authority: advisory
+capabilities: [team_formation, task_decomposition, conflict_escalation, synthesis]
+collaborates_with: [data-intake-triage-agent, evidence-provenance-agent, independent-verifier-agent]
+escalates_to: [independent-verifier-agent]
+tools: [risk.assess, knowledge.search]
+evidence: {minimum_sources: 1, domains: []}
+instructions: Coordinate but never approve, execute or overwrite a specialist's evidence boundary.

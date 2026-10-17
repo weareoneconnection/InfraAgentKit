@@ -3,7 +3,7 @@
 {"id":"G03","category":"grounding","message":"Concrete crack found on pier P52 after formwork removal","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-NCR-001"],"risk":"MEDIUM","actions":1}
 {"id":"G04","category":"grounding","message":"P52 墩柱混凝土出现裂缝，需开具不符合项","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-NCR-001"],"risk":"MEDIUM","actions":1}
 {"id":"G05","category":"grounding","message":"Concrete cube strength results below the specified grade for deck pour 3","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-CON-001"],"actions":1}
-{"id":"G06","category":"grounding","message":"分包商申请变更，要求增加锚栓并延长工期 10 天。","route":["contract-agent"],"status":"SUPPORTED","refs":["CON-VAR-001"],"actions":1}
+{"id":"G06","category":"grounding","message":"分包商申请变更，要求增加锚栓并延长工期 10 天。","route":["contract-agent"],"status":"SUPPORTED","refs":["CON-VAR-001"],"actions":2}
 {"id":"G07","category":"grounding","message":"Subcontractor requests a variation for extra anchor bolts and an extension of time","route":["contract-agent"],"status":"SUPPORTED","refs":["CON-VAR-001","CON-EOT-001"],"actions":1}
 {"id":"G08","category":"grounding","message":"Mobile crane lifting at station S12 tomorrow; crane certificate expired last week","route":["plant-agent"],"status":"SUPPORTED","refs":["PLT-LIFT-001","PLT-CERT-001"],"risk":"HIGH","actions":2}
 {"id":"G09","category":"grounding","message":"明天汽车吊吊装钢梁，起重机检验证书已过期","route":["plant-agent"],"status":"SUPPORTED","refs":["PLT-LIFT-001"],"risk":"HIGH","actions":2}
@@ -12,6 +12,25 @@
 {"id":"G12","category":"grounding","message":"动火作业没有作业许可证","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-PTW-001"],"risk":"HIGH","actions":1}
 {"id":"G13","category":"grounding","message":"Formwork collapse at P61, one worker injured; scene preserved","route":["hse-agent"],"status":"SUPPORTED","refs":["HSE-INC-001"],"risk":"CRITICAL","actions":1}
 {"id":"G14","category":"grounding","message":"ITP hold point for rebar inspection must be released before the pour","route":["quality-agent"],"status":"SUPPORTED","refs":["QA-ITP-001"],"actions":1}
+{"id":"G15","category":"grounding","message":"同一数据日期的计划价值、挣值和实际成本出现重大偏差，需要综合预测说明。","route":["project-controls-agent"],"status":"SUPPORTED","refs":["PC-EVM-001"]}
+{"id":"G16","category":"grounding","message":"RFI 必须说明图纸、规范、技术冲突和要求回复日期，不能代替设计变更。","route":["engineering-agent"],"status":"SUPPORTED","refs":["ENG-RFI-001"]}
+{"id":"G17","category":"grounding","message":"现场仍在使用已作废图纸，必须确认当前批准施工版本。","route":["design-management-agent"],"status":"SUPPORTED","refs":["DM-REV-001"]}
+{"id":"G18","category":"grounding","message":"开工作业面缺少批准施工方案、已放行图纸、合格人员和到位材料。","route":["construction-agent"],"status":"SUPPORTED","refs":["CST-MTH-001"]}
+{"id":"G19","category":"grounding","message":"采购包的供应商制造进度未核实，预测到货晚于要求到场日期。","route":["procurement-agent"],"status":"SUPPORTED","refs":["PRC-EXP-001"]}
+{"id":"G20","category":"grounding","message":"六周前瞻计划必须明确约束责任人和解除日期，不能替代基准计划。","route":["planning-schedule-agent"],"status":"SUPPORTED","refs":["PLN-LAH-001"]}
+{"id":"G21","category":"grounding","message":"成本预测需要核对预算、承诺成本、实际成本、应计和完工尚需成本。","route":["cost-finance-agent"],"status":"SUPPORTED","refs":["CSTC-FCT-001"]}
+{"id":"G22","category":"grounding","message":"风险登记册缺少原因、事件、后果、责任人和剩余风险等级。","route":["risk-opportunity-agent"],"status":"SUPPORTED","refs":["RSK-REG-001"]}
+{"id":"G23","category":"grounding","message":"现场变更尚未批准，也没有发布受控文件，不能直接实施。","route":["change-management-agent"],"status":"SUPPORTED","refs":["CHG-IMP-001"]}
+{"id":"G24","category":"grounding","message":"传递单必须记录收发方、目的、文件编号、版本和回执。","route":["document-control-agent"],"status":"SUPPORTED","refs":["DOC-TRN-001"]}
+{"id":"G25","category":"grounding","message":"会议承诺没有明确行动、责任人和到期日，纪要尚未审核。","route":["stakeholder-communication-agent"],"status":"SUPPORTED","refs":["STK-CMT-001"]}
+{"id":"G26","category":"grounding","message":"安全关键作业人员的岗位能力、有效培训和任务授权尚未核实。","route":["workforce-agent"],"status":"SUPPORTED","refs":["WFD-CMP-001"]}
+{"id":"G27","category":"grounding","message":"到场材料需要核对采购订单、证书、数量、状态和检验结果。","route":["materials-logistics-agent"],"status":"SUPPORTED","refs":["MAT-RCV-001"]}
+{"id":"G28","category":"grounding","message":"许可证登记册缺少审批机关、法律依据、有效期和续期日期。","route":["compliance-permits-agent"],"status":"SUPPORTED","refs":["CMP-PMT-001"]}
+{"id":"G29","category":"grounding","message":"扬尘和噪声监测必须使用批准点位、校准仪器和许可限值。","route":["environment-esg-agent"],"status":"SUPPORTED","refs":["ESG-ENV-001"]}
+{"id":"G30","category":"grounding","message":"土建与系统接口必须记录双方责任人、边界、所需输入和验收标准。","route":["interface-management-agent"],"status":"SUPPORTED","refs":["IFC-REG-001"]}
+{"id":"G31","category":"grounding","message":"调试测试开始前需要批准程序、校准设备、完成前置条件和指定见证人。","route":["commissioning-agent"],"status":"SUPPORTED","refs":["COM-RDY-001"]}
+{"id":"G32","category":"grounding","message":"经验教训必须说明背景、根因、建议、适用性和审核人。","route":["knowledge-lessons-agent"],"status":"SUPPORTED","refs":["KNO-LES-001"]}
+{"id":"G33","category":"grounding","message":"索赔证据链需要同期函件、计划逻辑、日报、资源成本记录和经核实时间线。","route":["claims-disputes-agent"],"status":"SUPPORTED","refs":["CLM-EVD-001"]}
 {"id":"A01","category":"abstention","message":"I have no knowledge of this site, just saying hello","status":"GAP","actions":0}
 {"id":"A02","category":"abstention","message":"会议改到周五下午","status":"GAP","actions":0}
 {"id":"A03","category":"abstention","message":"Hedge the knowledge risk in the meeting notes","status":"GAP","actions":0}

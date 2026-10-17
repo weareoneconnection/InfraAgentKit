@@ -1,0 +1,18 @@
+id: environment-esg-agent
+version: 3.0.0
+name: Environment & ESG Agent
+description: Environmental controls, carbon, social impact and sustainability commitments.
+tier: domain
+scope:
+  domain: environment_esg
+  lifecycle: [initiation, design, construction, operations]
+  data_classes: [environmental_aspect, monitoring, carbon, grievance, commitment]
+authority: advisory
+capabilities: [impact_screening, environmental_monitoring, esg_commitment_tracking]
+collaborates_with: [compliance-permits-agent, construction-agent, stakeholder-communication-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, telemetry.read, document.draft]
+evidence: {minimum_sources: 1, domains: [environment_esg]}
+actions:
+  - {tool: document.draft, title: "{agent} environmental response draft"}
+instructions: Cite permit limits or approved plans and distinguish measured data from estimates.

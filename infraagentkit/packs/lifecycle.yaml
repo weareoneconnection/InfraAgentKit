@@ -1,0 +1,232 @@
+# Synthetic bilingual lifecycle knowledge for demonstration and evaluation only.
+pack: full-lifecycle
+version: "2026.10"
+sources:
+  - ref: PC-EVM-001
+    title: Earned value control / 挣值管理
+    domain: project_controls
+    authority: Synthetic Project Controls Manual
+    text: >
+      Project controls shall reconcile planned value, earned value and actual cost at the same data date; material variance requires a documented forecast explanation. 项目控制须在同一数据日期核对计划价值、挣值和实际成本，重大偏差须形成预测说明。
+  - ref: PC-FCT-001
+    title: Integrated forecast / 综合预测
+    domain: project_controls
+    authority: Synthetic Project Controls Manual
+    text: >
+      The integrated forecast combines approved scope, current schedule, committed cost, quantified risk and management actions; unapproved change is shown separately. 综合预测应结合已批准范围、当前进度、承诺成本、量化风险和管理措施，未批准变更须单独列示。
+  - ref: ENG-RFI-001
+    title: Request for information / 技术澄清
+    domain: engineering
+    authority: Synthetic Engineering Procedure
+    text: >
+      An RFI must identify the drawing, specification, location, technical conflict and required response date; it shall not instruct a design change. 技术澄清须注明图纸、规范、位置、技术矛盾和要求回复日期，不得以 RFI 代替设计变更指令。
+  - ref: ENG-DSP-001
+    title: Engineering disposition / 工程处置意见
+    domain: engineering
+    authority: Synthetic Engineering Procedure
+    text: >
+      A technical disposition requires a defined affected element, verified design criteria, calculation or rationale, reviewer and implementation evidence. 工程处置意见须明确受影响构件、经核实的设计准则、计算或理由、审核人及实施证据。
+  - ref: DM-REV-001
+    title: Controlled design revision / 受控设计版本
+    domain: design_management
+    authority: Synthetic Design Management Plan
+    text: >
+      Construction may use only the current approved-for-construction revision; superseded drawings must be withdrawn from the workface. 施工只能使用当前批准施工版本，作废图纸必须从作业面撤回。
+  - ref: DM-CRV-001
+    title: Design review comments / 设计审查意见
+    domain: design_management
+    authority: Synthetic Design Management Plan
+    text: >
+      Design review comments remain open until the originator verifies the response and closure evidence; silence is not acceptance. 设计审查意见须由提出人核实回复和关闭证据后方可关闭，未回复不等于接受。
+  - ref: CST-MTH-001
+    title: Method statement readiness / 施工方案准备度
+    domain: construction
+    authority: Synthetic Construction Procedure
+    text: >
+      Work starts only with an approved method statement, released drawings, competent resources, permits, inspected plant and available materials. 开工前须具备批准的施工方案、已放行图纸、合格人员、作业许可、检验设备和到位材料。
+  - ref: CST-WFP-001
+    title: Workface constraint control / 作业面约束
+    domain: construction
+    authority: Synthetic Construction Procedure
+    text: >
+      Each work package records access, predecessor, design, material, plant, labour and interface constraints before the lookahead commitment. 每个工作包在纳入前瞻承诺前须记录通道、前置工序、设计、材料、设备、劳动力和接口约束。
+  - ref: PRC-PKG-001
+    title: Procurement package control / 采购包控制
+    domain: procurement
+    authority: Synthetic Procurement Procedure
+    text: >
+      A procurement package requires an approved technical requisition, bidder list, commercial evaluation, purchase order and required-on-site date. 采购包须具备批准的技术请购、投标人名单、商务评审、采购订单和要求到场日期。
+  - ref: PRC-EXP-001
+    title: Supplier expediting / 供应商催交
+    domain: procurement
+    authority: Synthetic Procurement Procedure
+    text: >
+      Expediting distinguishes supplier promise, verified manufacturing progress, inspection release, shipment and forecast delivery; delay risk is escalated with recovery evidence. 催交须区分供应商承诺、经核实制造进度、检验放行、发运和预测到货，并附恢复证据升级延误风险。
+  - ref: PLN-CPM-001
+    title: Critical path analysis / 关键线路分析
+    domain: planning_schedule
+    authority: Synthetic Planning Procedure
+    text: >
+      Critical path analysis uses the approved logic, current data date, actual progress and remaining duration; constraints and open ends are reported. 关键线路分析须使用批准逻辑、当前数据日期、实际进度和剩余工期，并报告强制约束和开口逻辑。
+  - ref: PLN-LAH-001
+    title: Lookahead planning / 前瞻计划
+    domain: planning_schedule
+    authority: Synthetic Planning Procedure
+    text: >
+      The six-week lookahead identifies executable activities, accountable constraint owners and required clearance dates; it does not replace the baseline. 六周前瞻计划须识别可执行活动、约束责任人和解除日期，且不得替代基准计划。
+  - ref: CSTC-FCT-001
+    title: Cost forecast / 成本预测
+    domain: cost_finance
+    authority: Synthetic Cost Procedure
+    text: >
+      Cost forecast reconciles budget, commitments, actual cost, accruals, approved changes and estimate to complete in one currency and cut-off date. 成本预测须在同一币种和截止日期下核对预算、承诺成本、实际成本、应计、已批准变更和完工尚需成本。
+  - ref: CSTC-CFL-001
+    title: Cash flow control / 现金流控制
+    domain: cost_finance
+    authority: Synthetic Cost Procedure
+    text: >
+      Cash flow is time-phased against the current schedule and payment terms; payment certification remains a human commercial decision. 现金流须结合当前进度和付款条件按时间展开，付款认证仍由具名商务人员决定。
+  - ref: RSK-REG-001
+    title: Project risk register / 项目风险登记册
+    domain: risk_opportunity
+    authority: Synthetic Risk Procedure
+    text: >
+      Every project risk records cause, event, consequence, owner, inherent rating, response, due date and residual rating with evidence. 每项项目风险须记录原因、事件、后果、责任人、固有等级、应对、到期日及有证据的剩余等级。
+  - ref: RSK-OPP-001
+    title: Opportunity management / 机会管理
+    domain: risk_opportunity
+    authority: Synthetic Risk Procedure
+    text: >
+      Opportunities are assessed for benefit, probability, investment, owner and implementation gate; potential benefit is not included in forecast before approval. 机会须评估收益、概率、投入、责任人和实施关卡，批准前不得将潜在收益计入预测。
+  - ref: CHG-CTL-001
+    title: Integrated change control / 综合变更控制
+    domain: change_management
+    authority: Synthetic Change Procedure
+    text: >
+      A change request identifies origin, scope, design, schedule, cost, risk, contract and interface impact before the delegated authority decides. 变更申请须在授权人决定前说明来源以及范围、设计、进度、成本、风险、合同和接口影响。
+  - ref: CHG-IMP-001
+    title: Change implementation gate / 变更实施关卡
+    domain: change_management
+    authority: Synthetic Change Procedure
+    text: >
+      No field change is implemented before approval, controlled document issue and communication to affected parties, except documented emergency protection. 除有记录的应急保护外，现场变更须经批准、受控文件发布并通知受影响方后方可实施。
+  - ref: DOC-REV-001
+    title: Document revision control / 文件版本控制
+    domain: document_control
+    authority: Synthetic Document Control Procedure
+    text: >
+      Each controlled document has a unique reference, revision, status, owner and supersession link; uncontrolled copies are visibly marked. 每份受控文件须有唯一编号、版本、状态、责任人和替代关系，非受控副本须明确标识。
+  - ref: DOC-TRN-001
+    title: Transmittal control / 传递单控制
+    domain: document_control
+    authority: Synthetic Document Control Procedure
+    text: >
+      A transmittal records sender, recipient, purpose, document references, revisions and acknowledgement; dispatch requires authorised release. 传递单须记录发件人、收件人、目的、文件编号、版本和回执，发出前须授权放行。
+  - ref: STK-REG-001
+    title: Stakeholder register / 利益相关方登记册
+    domain: stakeholder_communication
+    authority: Synthetic Stakeholder Plan
+    text: >
+      The stakeholder register records influence, interest, commitments, communication owner, channel and frequency with privacy classification. 利益相关方登记册须记录影响力、关注点、承诺、沟通责任人、渠道、频率和隐私分级。
+  - ref: STK-CMT-001
+    title: Meeting commitment control / 会议承诺控制
+    domain: stakeholder_communication
+    authority: Synthetic Stakeholder Plan
+    text: >
+      Meeting commitments identify the exact action, accountable person and due date; minutes require review before external issue. 会议承诺须明确行动、责任人和到期日，会议纪要对外发布前须审核。
+  - ref: WFD-CMP-001
+    title: Workforce competence / 人员能力
+    domain: workforce
+    authority: Synthetic Workforce Procedure
+    text: >
+      Safety-critical work requires verified identity, role competence, current training and task-specific authorisation before assignment. 安全关键作业分配前须核实人员身份、岗位能力、有效培训和任务授权。
+  - ref: WFD-PRD-001
+    title: Productivity analysis / 生产率分析
+    domain: workforce
+    authority: Synthetic Workforce Procedure
+    text: >
+      Productivity is compared on consistent quantities, hours, location and conditions; it shall not be used alone for employment decisions. 生产率比较须使用一致的工程量、工时、位置和条件，不得单独作为用工决定依据。
+  - ref: MAT-RCV-001
+    title: Material receipt / 材料接收
+    domain: materials_logistics
+    authority: Synthetic Materials Procedure
+    text: >
+      Received material is matched to purchase order, certificate, quantity, condition and inspection status before release to work. 材料接收须核对采购订单、证书、数量、状态和检验结果后方可放行使用。
+  - ref: MAT-PRS-001
+    title: Storage and preservation / 储存与保管
+    domain: materials_logistics
+    authority: Synthetic Materials Procedure
+    text: >
+      Storage preserves identification, environmental limits, segregation and inspection frequency; damaged or expired material is quarantined. 储存须保持标识、环境限值、隔离和检查频率，损坏或过期材料须隔离。
+  - ref: CMP-PMT-001
+    title: Permit register / 许可证登记册
+    domain: compliance_permits
+    authority: Synthetic Compliance Procedure
+    text: >
+      The permit register records issuing authority, legal basis, conditions, responsible owner, validity and renewal date; expired approval blocks dependent work. 许可证登记册须记录审批机关、法律依据、条件、责任人、有效期和续期日期，过期审批阻止相关作业。
+  - ref: CMP-INS-001
+    title: Regulatory inspection / 政府检查
+    domain: compliance_permits
+    authority: Synthetic Compliance Procedure
+    text: >
+      Regulatory findings are logged verbatim with authority, evidence, corrective owner and closure acceptance; interpretation is reviewed by qualified counsel. 政府检查发现须原文记录主管机关、证据、整改责任人和关闭确认，解释由合格专业人员审核。
+  - ref: ESG-ENV-001
+    title: Environmental monitoring / 环境监测
+    domain: environment_esg
+    authority: Synthetic Environmental Plan
+    text: >
+      Dust, noise, water and waste monitoring uses approved locations, calibrated instruments, permit limits and corrective triggers. 扬尘、噪声、水和废物监测须采用批准点位、校准仪器、许可限值和纠正触发条件。
+  - ref: ESG-CAR-001
+    title: Carbon reporting / 碳排报告
+    domain: environment_esg
+    authority: Synthetic ESG Procedure
+    text: >
+      Carbon reporting states boundary, period, activity data, emission factor, source and uncertainty; estimates remain distinguishable from measured data. 碳排报告须说明边界、期间、活动数据、排放因子、来源和不确定性，并区分估算与实测数据。
+  - ref: IFC-REG-001
+    title: Interface register / 接口登记册
+    domain: interface_management
+    authority: Synthetic Interface Plan
+    text: >
+      Each interface records both owners, physical or functional boundary, required input, due date, acceptance criteria and status. 每个接口须记录双方责任人、物理或功能边界、所需输入、到期日、验收标准和状态。
+  - ref: IFC-SYS-001
+    title: Civil-system interface / 土建系统接口
+    domain: interface_management
+    authority: Synthetic Interface Plan
+    text: >
+      Civil openings, loads, power, earthing, communications and access are verified against coordinated models and approved interface control documents. 预留孔洞、荷载、电源、接地、通信和通道须依据协调模型和批准的接口控制文件核实。
+  - ref: COM-RDY-001
+    title: Commissioning readiness / 调试准备度
+    domain: commissioning
+    authority: Synthetic Commissioning Procedure
+    text: >
+      Testing starts only with approved procedure, calibrated equipment, completed prerequisites, safe isolation, accepted records and named witnesses. 测试须具备批准程序、校准设备、完成前置条件、安全隔离、已接受记录和指定见证人后方可开始。
+  - ref: COM-PCH-001
+    title: Punch list and handover / 遗留项与移交
+    domain: commissioning
+    authority: Synthetic Commissioning Procedure
+    text: >
+      Punch items are classified, owned, dated and verified closed; safety-critical open items block handover certification. 遗留项须分类、明确责任人和日期并经验证关闭，安全关键未关闭项阻止移交认证。
+  - ref: KNO-LES-001
+    title: Lesson learned / 经验教训
+    domain: knowledge_lessons
+    authority: Synthetic Knowledge Procedure
+    text: >
+      A lesson states context, observation, consequence, root cause, recommendation, applicability and reviewer; anecdotes are labelled unverified. 经验教训须说明背景、观察、后果、根因、建议、适用性和审核人，未经核实的轶事须标注。
+  - ref: KNO-PUB-001
+    title: Knowledge publication / 知识发布
+    domain: knowledge_lessons
+    authority: Synthetic Knowledge Procedure
+    text: >
+      Knowledge is published only after source, confidentiality, duplication, technical review and expiry checks are complete. 知识须完成来源、保密、重复、技术审核和失效检查后方可发布。
+  - ref: CLM-NTC-001
+    title: Claim notice / 索赔通知
+    domain: claims_disputes
+    authority: Synthetic Claims Procedure
+    text: >
+      A claim notice records event, contractual basis, awareness date, required notice period, potential effect and reservation without deciding entitlement. 索赔通知须记录事件、合同依据、知悉日期、通知期限、潜在影响和权利保留，但不决定索赔权利。
+  - ref: CLM-EVD-001
+    title: Claim evidence chain / 索赔证据链
+    domain: claims_disputes
+    authority: Synthetic Claims Procedure
+    text: >
+      Claim readiness requires contemporaneous correspondence, programme logic, daily records, resource and cost records, causation and verified chronology. 索赔准备须具备同期函件、计划逻辑、日报、资源成本记录、因果关系和经核实的时间线。

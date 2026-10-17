@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.0 — 2026-10-17
+- Expanded from 5 examples to 30 governed Agent Cards: 24 lifecycle domains, 4 control agents and 2 assurance agents.
+- Added capability, data-class, collaboration, escalation and output-contract declarations with cross-card linting.
+- Added dynamic lead/support team composition with a configurable five-agent default cap.
+- Added contextual country and digital-twin control agents, fixed-contract handoffs, conflict reporting and synthesis.
+- Added 44 lifecycle/platform knowledge entries for 57 bilingual, versioned sources across the full catalogue.
+- Added read-only P6, ERP cost, procurement, document-control, BIM/GIS/digital-twin and IoT connector previews.
+- Added catalogue coverage API/MCP metadata and a responsive 30-agent mission-control console.
+- Expanded validation to 42 tests and 54 benchmark cases with 100% deterministic gates.
+
 ## 2.0.0 — 2026-10-17
 - Strict Agent Card schema with fingerprint and lint; operator authority with declared write exemptions.
 - Bilingual knowledge packs with per-source SHA-256; BM25 retrieval with CJK bigrams and stopwords.

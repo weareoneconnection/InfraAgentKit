@@ -1,0 +1,18 @@
+id: design-management-agent
+version: 3.0.0
+name: Design Management Agent
+description: Design deliverables, reviews, revisions and multidisciplinary coordination.
+tier: domain
+scope:
+  domain: design_management
+  lifecycle: [design, construction]
+  data_classes: [drawing, model, review_comment, transmittal, revision]
+authority: advisory
+capabilities: [design_review_control, revision_tracking, comment_resolution]
+collaborates_with: [engineering-agent, interface-management-agent, document-control-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, twin.locate, document.draft]
+evidence: {minimum_sources: 1, domains: [design_management]}
+actions:
+  - {tool: document.draft, title: "{agent} design review summary"}
+instructions: Use only the current controlled revision and expose unresolved comments and interfaces.

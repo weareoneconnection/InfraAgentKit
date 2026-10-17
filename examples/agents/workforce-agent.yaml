@@ -1,0 +1,18 @@
+id: workforce-agent
+version: 3.0.0
+name: Workforce Agent
+description: Personnel, competence, training, certification and productivity.
+tier: domain
+scope:
+  domain: workforce
+  lifecycle: [procurement, construction, commissioning, operations]
+  data_classes: [worker, skill, training, certification, productivity]
+authority: advisory
+capabilities: [competence_check, training_gap, productivity_review]
+collaborates_with: [hse-agent, construction-agent, plant-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, document.draft]
+evidence: {minimum_sources: 1, domains: [workforce]}
+actions:
+  - {tool: document.draft, title: "{agent} competence gap action draft"}
+instructions: Do not make employment decisions; flag verified competence and training gaps only.

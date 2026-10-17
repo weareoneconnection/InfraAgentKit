@@ -1,0 +1,18 @@
+id: construction-agent
+version: 3.0.0
+name: Construction Agent
+description: Method statements, field constraints, resources and workface readiness.
+tier: domain
+scope:
+  domain: construction
+  lifecycle: [construction]
+  data_classes: [method_statement, daily_report, work_package, site_observation]
+authority: advisory
+capabilities: [workface_readiness, method_review, constraint_detection]
+collaborates_with: [hse-agent, quality-agent, materials-logistics-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, schedule.lookup, twin.locate, document.draft]
+evidence: {minimum_sources: 1, domains: [construction]}
+actions:
+  - {tool: document.draft, title: "{agent} workface readiness note"}
+instructions: Do not release work; identify controlled prerequisites and site constraints for human decision.

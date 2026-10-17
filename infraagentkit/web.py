@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 
 from . import __version__
 from .cards import AgentCard
+from .knowledge import load_packs
 from .runtime import ConflictError, GovernanceError, GovernedRuntime
 
 BASE = Path(__file__).resolve().parent
@@ -44,12 +45,18 @@ def _errors(fn, *args):
 @app.get("/health")
 def health():
     return {"status": "ok", "product": "InfraAgentKit", "version": __version__, "agents": len(runtime.cards),
-            "model": "configured" if runtime.model else "deterministic", "ledger": runtime.audit()["valid"]}
+            "model": "configured" if runtime.model else "deterministic", "ledger": runtime.audit()["valid"],
+            "coverage": runtime.coverage(), "tools": len(runtime.registry.names()), "knowledge_sources": len(load_packs())}
 
 
 @app.get("/agents")
 def agents():
-    return [{**c.model_dump(), "fingerprint": c.fingerprint()} for c in runtime.cards.values()]
+    return runtime.catalogue()
+
+
+@app.get("/catalog/coverage")
+def catalog_coverage():
+    return runtime.coverage()
 
 
 @app.get("/tools")

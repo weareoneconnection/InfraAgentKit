@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "infraagentkit"
-version = "2.0.0"
-description = "Open governed agent, skill, tool and MCP framework for transport infrastructure"
+version = "3.0.0"
+description = "30-agent governed collaboration and MCP framework for the transport infrastructure lifecycle"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.11"

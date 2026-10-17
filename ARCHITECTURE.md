@@ -3,13 +3,12 @@
 ```text
              CLI · Web console · Runtime API · MCP (official SDK v2)
                                    │
-                          GovernedRuntime
+                          GovernedRuntime v3
    ┌──────────────┬────────────────┼──────────────────┬──────────────────┐
    │              │                │                  │                  │
- Router      Planner (rules |   Tool registry     Policy engine      Verifier
- (evidence    model, validated)  (schema-checked    (default deny,     (findings +
-  domains)                       args, side-effect   re-checked at      executions)
-                                 class, evidence)    execution)
+ Intake +    Team composer     Tool registry     Policy engine      Independent
+ evidence    (lead + support,  (10 governed       (default deny,    verifier
+ routing      max 5 domain)     adapters)          re-check)         + synthesis
    │              │                │                  │                  │
    └──────────────┴──────── Store (SQLite) + hash-chained ledger ─────────┘
                                    │
@@ -31,4 +30,6 @@
 
 Reasoning authority and execution authority are separate by construction: the only path from analysis to a side effect is an `ActionIntent` that a named human approves (or an operator card's declared write exemption), and the executor re-validates it.
 
-Production evolution: Postgres store, identity provider in front of the API, signed ledger heads, connector packages (P6, BIM/CDE, ERP, mail) implementing the same tool contract.
+The example catalogue contains 24 domain agents, 4 control agents and 2 assurance agents. Control agents coordinate context but cannot approve. Domain specialists remain independently evidence-bound; the runtime records handoffs and produces a synthesis that names contributors, gaps, conflicts and the controlling risk.
+
+Production evolution: Postgres store, identity provider in front of the API, signed ledger heads, and real connector packages replacing the read-only P6, BIM/GIS, ERP, procurement, document and IoT preview adapters behind the same contracts.

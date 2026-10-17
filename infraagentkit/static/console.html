@@ -13,7 +13,7 @@ main{max-width:1280px;margin:auto;padding:28px 20px 60px}
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
 .ey{color:var(--accent);font-size:12px;letter-spacing:.14em;font-weight:700}h1{font-size:34px;margin:6px 0 4px}.sub{color:var(--muted);max-width:780px;margin:0}
 .badges{display:flex;gap:8px;flex-wrap:wrap}.badge{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted)}.badge.ok{color:var(--ok);border-color:#2f6b55}.badge.bad{color:var(--bad);border-color:#7a3340}
-.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:20px 0}.flow div{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 6px;text-align:center;font-size:12px;color:var(--muted)}.flow b{display:block;color:var(--text);font-size:13px}
+.flow{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:20px 0}.flow div{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:8px 6px;text-align:center;font-size:12px;color:var(--muted)}.flow b{display:block;color:var(--text);font-size:13px}
 .grid{display:grid;grid-template-columns:380px 1fr;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
 h2{font-size:15px;margin:0 0 10px}h3{font-size:13px;color:var(--muted);margin:16px 0 8px;font-weight:600;letter-spacing:.04em}
 textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px;font:inherit}textarea{min-height:120px;resize:vertical}
@@ -26,6 +26,11 @@ textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line)
 .ref{font-family:var(--mono);font-size:11px;border:1px solid #3b3a6b;color:#c7c0ff;border-radius:6px;padding:0 6px;margin-right:4px;cursor:pointer;background:none}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px;font-size:12px;margin-top:6px}.checks span:before{content:"✓ ";color:var(--ok)}.checks span.no:before{content:"✕ ";color:var(--bad)}
 .muted{color:var(--muted)}.small{font-size:12px}pre{white-space:pre-wrap;word-break:break-word;background:#0b0e16;border-radius:10px;padding:10px;font-size:12px;color:#cdd4ea;max-height:240px;overflow:auto}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 18px}.metric{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.085);border-radius:16px;padding:15px 17px;background:rgba(17,21,36,.72)}.metric strong{display:block;font:800 26px/1 var(--mono);margin:5px 0;color:var(--text)}.metric span{color:var(--muted);font-size:11px;letter-spacing:.08em}.metric i{position:absolute;right:12px;top:9px;color:rgba(142,128,255,.16);font:900 36px var(--mono);font-style:normal}
+.catalog{margin-bottom:18px}.catalog-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}.seg{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.15)}.seg button{border:0;border-radius:8px;padding:6px 10px;color:var(--muted);background:transparent;cursor:pointer;font-size:11px}.seg button.on{color:#fff;background:rgba(142,128,255,.22)}
+.agent-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}.agent-card{position:relative;min-height:112px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(255,255,255,.025);transition:.18s}.agent-card:hover{transform:translateY(-2px);border-color:rgba(142,128,255,.42);background:rgba(142,128,255,.06)}.agent-card b{display:block;font-size:12px;margin:5px 0}.agent-card p{font-size:10.5px;color:var(--muted);margin:0;line-height:1.45}.agent-card .idx{font:700 9px var(--mono);color:var(--accent2)}.tier{position:absolute;right:9px;top:9px;border:1px solid var(--line);border-radius:999px;padding:1px 5px;color:var(--muted);font:8px var(--mono);text-transform:uppercase}.tier.control{color:#60dfff}.tier.assurance{color:var(--ok)}
+.agent-picker{border:1px solid var(--line);border-radius:12px;padding:0 10px;background:rgba(0,0,0,.12)}.agent-picker summary{cursor:pointer;padding:9px 0;color:var(--muted);font-size:12px}.agent-picker[open] summary{color:var(--text)}.agents{max-height:300px;overflow:auto;padding:4px 2px 8px}.agent-group{padding:8px 0 3px;color:var(--accent2);font:700 9px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.team-strip{display:grid;grid-template-columns:1.2fr 1fr;gap:9px;margin:10px 0 16px}.team-box{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(0,0,0,.13)}.team-box .nodes{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.node{border:1px solid rgba(142,128,255,.34);border-radius:8px;padding:3px 7px;font:10px var(--mono);color:#c9c3ff}.node.lead{background:rgba(142,128,255,.2);color:#fff}.node.control{border-color:rgba(72,215,255,.28);color:#8be8ff}.synthesis{border-left:3px solid var(--ok)!important}.handoff{display:inline-flex;align-items:center;gap:4px;margin:2px 6px 2px 0;color:var(--muted);font:10px var(--mono)}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
 /* Competition UI 3.0 ------------------------------------------------------ */
 :root{--bg:#070914;--panel:rgba(18,22,39,.88);--panel2:rgba(27,33,56,.88);--line:rgba(142,128,255,.2);--text:#f7f8ff;--muted:#9da8c7;--accent:#8e7cff;--accent2:#48d7ff;--ok:#5de0a8;--warn:#ffd074;--bad:#ff7d93;--shadow:0 24px 70px rgba(0,0,0,.28)}
@@ -53,7 +58,9 @@ textarea,input,select{background:rgba(6,8,17,.72);border-color:rgba(255,255,255,
 .item{padding:13px 14px;border-color:rgba(255,255,255,.085);background:rgba(255,255,255,.035);box-shadow:inset 3px 0 0 rgba(142,128,255,.16)}pre{border:1px solid rgba(255,255,255,.06)}.checks{padding:9px 0}.ref{padding:2px 7px;background:rgba(142,128,255,.07)}
 footer{display:flex;justify-content:space-between;gap:12px;margin-top:24px;padding:16px 2px 0;border-top:1px solid rgba(255,255,255,.07);color:#6f7a99;font:11px var(--mono);letter-spacing:.05em}
 @media(max-width:980px){header.hero{align-items:flex-start}.badges{max-width:none;justify-content:flex-start}.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:640px){.appbar-inner{height:52px;padding:0 15px}.app-status{font-size:9px}.brand small{display:none}main{padding:16px 14px 56px}header.hero{padding:24px 20px;border-radius:20px}.hero h1{font-size:36px}.sub{font-size:13px}.badges{gap:6px}.badge{padding:5px 9px}.flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.flow:before{display:none}.flow div{flex:0 0 128px;scroll-snap-align:start}.card{padding:16px;border-radius:17px}.row{flex-wrap:wrap}.row>*{max-width:100%}.btn{min-height:42px}.checks{grid-template-columns:1fr}footer{display:block;line-height:1.8}footer span{display:block}footer span+span{margin-top:6px}}
+@media(max-width:1120px){.agent-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:800px){.metrics{grid-template-columns:repeat(2,1fr)}.agent-grid{grid-template-columns:repeat(3,1fr)}.team-strip{grid-template-columns:1fr}}
+@media(max-width:640px){.appbar-inner{height:52px;padding:0 15px}.app-status{font-size:9px}.brand small{display:none}main{padding:16px 14px 56px}header.hero{padding:24px 20px;border-radius:20px}.hero h1{font-size:36px}.sub{font-size:13px}.badges{gap:6px}.badge{padding:5px 9px}.flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.flow:before{display:none}.flow div{flex:0 0 128px;scroll-snap-align:start}.card{padding:16px;border-radius:17px}.row{flex-wrap:wrap}.row>*{max-width:100%}.btn{min-height:42px}.checks{grid-template-columns:1fr}.agent-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.agent-card{flex:0 0 185px;scroll-snap-align:start}.catalog-head{align-items:flex-start}.seg{width:100%;overflow-x:auto}.seg button{white-space:nowrap}.metrics{gap:7px}.metric{padding:12px}.metric strong{font-size:22px}footer{display:block;line-height:1.8}footer span{display:block}footer span+span{margin-top:6px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
@@ -62,24 +69,31 @@ footer{display:flex;justify-content:space-between;gap:12px;margin-top:24px;paddi
 <main>
 <header class="hero">
   <div class="hero-copy"><div class="ey">OPEN-SOURCE GOVERNED AGENT FRAMEWORK · MCP</div><h1>InfraAgent<span>Kit</span></h1>
-  <p class="sub">交通基础设施智能体开源框架：智能体卡片定义权限，工具注册定义能力，证据契约约束结论，人工关卡控制副作用，执行回执与独立核验证明结果，哈希链账本防篡改。</p>
-  <div class="hero-notes"><span class="hero-note">权限最小化</span><span class="hero-note">引用可追溯</span><span class="hero-note">人工控制副作用</span></div></div>
+  <p class="sub">30 个受治理智能体覆盖交通工程 24 个专业域：系统按任务动态组成“1 个主责 + 必要协同 + 控制与独立验证”团队，所有结论受证据约束，所有副作用受人工关卡控制。</p>
+  <div class="hero-notes"><span class="hero-note">24 专业智能体</span><span class="hero-note">6 平台智能体</span><span class="hero-note">最多 5 个动态编组</span><span class="hero-note">人工控制副作用</span></div></div>
   <div class="badges" id="badges"></div>
 </header>
-<div class="flow"><div><b>Agent Card</b>卡片与权限</div><div><b>Route</b>按证据路由</div><div><b>Tools</b>只读取证</div><div><b>Evidence</b>证据契约</div><div><b>Human Gate</b>人工审批</div><div><b>Receipt</b>执行回执</div><div><b>Verifier</b>独立核验</div></div>
+<div class="flow"><div><b>Intake</b>六类数据分诊</div><div><b>Orchestrate</b>动态专家编组</div><div><b>Specialists</b>专业并行研判</div><div><b>Evidence</b>证据与血缘</div><div><b>Synthesis</b>冲突与合成</div><div><b>Human Gate</b>具名人员审批</div><div><b>Execute</b>原参数执行</div><div><b>Verify</b>独立核验回执</div></div>
+<div class="metrics" id="metrics"></div>
+<section class="catalog card">
+  <div class="catalog-head"><div><div class="ey">AGENT CATALOG · 24 + 6</div><h2 style="margin-top:6px">工程全生命周期智能体目录</h2><p class="muted small" style="margin:0">30 张严格卡片不是 30 个提示词：每张卡都声明专业边界、证据域、工具权限、协作关系和输出契约。</p></div>
+  <div class="seg" id="catalogFilters"><button class="on" onclick="setFilter('all',this)">全部</button><button onclick="setFilter('domain',this)">24 专业</button><button onclick="setFilter('control',this)">4 控制</button><button onclick="setFilter('assurance',this)">2 验证</button></div></div>
+  <div class="agent-grid" id="catalog"></div>
+</section>
 <div class="grid">
   <section class="card">
     <h2>运行受治理的智能体</h2>
     <textarea id="msg">P47 墩临边防护缺失，工人在高处作业未系安全带，下午还要继续施工。</textarea>
     <div class="chips" id="samples"></div>
-    <h3>智能体（不选则按证据自动路由）</h3>
-    <div class="agents" id="agents"></div>
+    <h3>任务编组</h3>
+    <p class="muted small">默认由编排器自动选择主责与协同专家；最多激活 5 个专业智能体。</p>
+    <details class="agent-picker"><summary>高级：手动指定智能体</summary><div class="agents" id="agents"></div></details>
     <div class="row"><button class="btn" id="runBtn" onclick="run()">运行智能体</button><span class="muted small" id="runState" aria-live="polite"></span></div>
     <h3>审批人</h3>
     <input id="actor" value="项目经理 张工">
     <p class="muted small">审批只能由具名的人完成；智能体、模型和 MCP 客户端都不能批准或执行。</p>
   </section>
-  <section class="card" id="trace"><h2>运行轨迹</h2><p class="muted">点击“运行”查看：路由 → 工具调用（含输出摘要）→ 结论与证据 → 待审批动作 → 执行回执与核验。</p></section>
+  <section class="card" id="trace"><h2>任务控制中心</h2><p class="muted">点击“运行”查看：动态编组 → 专业研判 → 智能体交接 → 合成结论 → 人工关卡 → 执行与独立核验。</p></section>
 </div>
 <footer><span>C4AI THREE-TRACK SUITE · OPEN-SOURCE TRACK</span><span>AI RECOMMENDS → HUMAN APPROVES → TOOL EXECUTES → VERIFIER CHECKS</span></footer>
 </main>
@@ -89,21 +103,25 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const SAMPLES=[
   ['临边高处作业','P47 墩临边防护缺失，工人在高处作业未系安全带，下午还要继续施工。'],
   ['混凝土裂缝 NCR','Concrete crack found on pier P52 after formwork removal; inspection record attached.'],
-  ['变更与工期','分包商申请变更，要求增加锚栓并延长工期 10 天。'],
-  ['汽车吊吊装','Mobile crane lifting at station S12 tomorrow; crane certificate expired last week.'],
-  ['支座病害（运营）','Bridge bearing displacement and corrosion above the alert threshold at BRG-03.'],
-  ['干扰：无证据','I have no knowledge of this site, just saying hello.'],
+  ['变更索赔编组','分包商申请设计变更，要求增加锚栓、延长关键线路工期 10 天并补偿费用，请检查索赔证据链。'],
+  ['材料交付延误','支座采购包预测到货晚于要求到场日期，影响六周前瞻计划和现场安装。'],
+  ['数字孪生联动','请根据 IFC 构件 P47、GeoJSON 图层和 IoT 位移传感器判断受影响资产。'],
+  ['竣工移交','调试测试存在安全关键遗留项，竣工图版本和资产移交资料尚未齐全。'],
 ];
-let lastRun=null;
+let lastRun=null,catalogAgents=[];
 async function api(path,opt){const r=await fetch(path,opt);const b=await r.json().catch(()=>({}));if(!r.ok)throw new Error(b.detail||r.status);return b}
 async function init(){
   $('samples').innerHTML=SAMPLES.map(([t,m],i)=>`<button class="chip" onclick="pick(${i})">${esc(t)}</button>`).join('');
-  const agents=await api('/agents');
-  $('agents').innerHTML=agents.map(a=>`<label><input type="checkbox" value="${a.id}"> <b>${esc(a.name)}</b> <span class="k">${a.authority} · ${a.scope.domain}</span></label>`).join('');
+  catalogAgents=await api('/agents');
+  $('agents').innerHTML=['domain','control','assurance'].map(t=>`<div class="agent-group">${t}</div>`+catalogAgents.filter(a=>a.tier===t).map(a=>`<label><input type="checkbox" value="${a.id}"> <b>${esc(a.name)}</b> <span class="k">${esc(a.scope.domain)}</span></label>`).join('')).join('');
+  renderCatalog('all');
   badges();
 }
 async function badges(){const h=await api('/health');const v=await api('/ledger/verify');
-  $('badges').innerHTML=`<span class="badge">v${h.version}</span><span class="badge">${h.agents} 个智能体</span><span class="badge">${h.model==='configured'?'大模型规划':'确定性规则'}</span><span class="badge ${v.valid?'ok':'bad'}">账本 ${v.valid?'完整':'被篡改'} · ${v.entries} 条</span>`}
+  $('badges').innerHTML=`<span class="badge">v${h.version}</span><span class="badge">${h.agents} 个智能体</span><span class="badge">${h.model==='configured'?'大模型规划':'确定性规则'}</span><span class="badge ${v.valid?'ok':'bad'}">账本 ${v.valid?'完整':'被篡改'} · ${v.entries} 条</span>`;
+  $('metrics').innerHTML=`<div class="metric"><span>GOVERNED AGENTS</span><strong>${h.agents}</strong><small class="muted">24 专业 + 6 平台</small><i>30</i></div><div class="metric"><span>DOMAIN COVERAGE</span><strong>${h.coverage.domain_coverage}/24</strong><small class="muted">工程全生命周期</small><i>24</i></div><div class="metric"><span>GOVERNED TOOLS</span><strong>${h.tools}</strong><small class="muted">只读 / 写入 / 外部</small><i>10</i></div><div class="metric"><span>KNOWLEDGE SOURCES</span><strong>${h.knowledge_sources}</strong><small class="muted">中英双语、版本化</small><i>57</i></div>`}
+function setFilter(t,el){document.querySelectorAll('#catalogFilters button').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderCatalog(t)}
+function renderCatalog(t){const list=catalogAgents.filter(a=>t==='all'||a.tier===t);$('catalog').innerHTML=list.map((a,i)=>`<article class="agent-card"><span class="idx">${String(i+1).padStart(2,'0')} · ${esc(a.scope.domain)}</span><span class="tier ${a.tier}">${a.tier}</span><b>${esc(a.name)}</b><p>${esc(a.capabilities.slice(0,3).join(' · ')||a.description)}</p></article>`).join('')}
 function pick(i){$('msg').value=SAMPLES[i][1]}
 async function run(){
   $('runBtn').disabled=true;$('runState').textContent='运行中…';
@@ -118,13 +136,15 @@ function showRef(ref){const h=sourceText(ref);if(h)alert(`${h.ref} · ${h.title}
 function render(){
   const r=lastRun;const fv=r.finding_verification;
   let html=`<h2>运行轨迹 <span class="k">${r.run_id}</span></h2>
-  <p class="small muted">${r.routed?'按证据自动路由到':'指定智能体'}：<b style="color:var(--text)">${r.agents.join('、')}</b> · 结论核验 <span class="st ${fv.passed?'ok':'err'}">${fv.passed?'通过':'未通过'}</span></p>
+  <p class="small muted">${r.routed?'动态证据编组':'用户指定编组'} · 最多 ${r.team.max_active} 个专业智能体 · 结论核验 <span class="st ${fv.passed?'ok':'err'}">${fv.passed?'通过':'未通过'}</span></p>
+  <div class="team-strip"><div class="team-box"><b>任务团队</b><div class="nodes"><span class="node lead">主责 · ${esc(r.team.lead)}</span>${r.team.support.map(x=>`<span class="node">协同 · ${esc(x)}</span>`).join('')}</div></div><div class="team-box"><b>控制与验证</b><div class="nodes">${r.team.control.map(x=>`<span class="node control">${esc(x)}</span>`).join('')}</div></div></div>
   <h3>工具调用（只读，输出可校验）</h3>`+r.tool_calls.map(c=>`<div class="item"><b>${esc(c.agent_id)}</b> → <code>${esc(c.tool)}</code> <span class="k">${c.planned_by==='model'?'模型规划':'规则规划'}</span>${c.error?`<span class="st err">${esc(c.error)}</span>`:''}
     <div class="k">${c.tool==='risk.assess'?`风险 ${esc(c.output?.risk)} · 信号 ${esc((c.output?.signals||[]).join(', ')||'无')}`:c.tool==='knowledge.search'?`命中 ${(c.output?.hits||[]).map(h=>h.ref+' ('+h.score+')').join('、')||'无（低于阈值不算证据）'}`:''}</div>
     <div class="k">output sha256 ${esc((c.output_digest||'').slice(0,24))}…</div></div>`).join('')
   +`<h3>结论（证据契约）</h3>`+r.findings.map(f=>`<div class="item"><b>${esc(f.agent_id)}</b><span class="st ${f.status}">${f.status}</span><span class="k"> 风险 ${f.risk} · 置信度 ${f.confidence} · ${f.composed_by==='model'?'模型撰写':'规则撰写'}</span>
     <p style="margin:6px 0">${esc(f.claim)}</p><div>${f.evidence_refs.map(x=>`<button class="ref" onclick="showRef('${esc(x)}')">${esc(x)}</button>`).join('')}</div>
     ${f.questions.length?`<p class="small" style="color:var(--warn)">需要人补充：${esc(f.questions.join('；'))}</p>`:''}</div>`).join('')
+  +`<h3>智能体交接与合成</h3><div class="item synthesis"><b>${esc(r.synthesis.lead||'orchestrator')} · ${esc(r.synthesis.status)}</b><span class="st ${r.synthesis.status}">${esc(r.synthesis.risk)}</span><p class="small">贡献者：${esc(r.synthesis.contributors.join('、')||'无')} · 证据 ${r.synthesis.evidence_refs.length} 条 · 缺口智能体 ${r.synthesis.gap_agents.length} 个</p><div>${r.handoffs.map(h=>`<span class="handoff">${esc(h.from)} → ${esc(h.to)} · ${esc(h.status)}</span>`).join('')||'<span class="muted small">单专业任务，无需横向交接</span>'}</div>${r.synthesis.conflicts.length?`<p class="small" style="color:var(--warn)">${esc(r.synthesis.conflicts.join('；'))}</p>`:''}</div>`
   +`<h3>副作用动作（人工关卡）</h3>`+(r.actions.length?r.actions.map(a=>action(a)).join(''):'<p class="muted small">没有动作：只有有证据的结论才会提出副作用。</p>');
   $('trace').innerHTML=html;
 }

@@ -1,0 +1,39 @@
+pack: platform-governance
+version: "2026.10"
+sources:
+  - ref: DAT-INT-001
+    title: Six-channel data intake / 六类数据接入
+    domain: data_intake
+    authority: Synthetic Data Governance Standard
+    text: >
+      Data intake preserves six distinct channels: events and work orders, documents and correspondence, project master data, enterprise connectors, BIM GIS digital-twin models, and IoT telemetry. 数据接入须保留事件工单、文档函件、项目主数据、企业系统连接器、BIM GIS 数字孪生模型、IoT 遥测六类入口。
+  - ref: ORC-TEAM-001
+    title: Governed team formation / 受治理动态编组
+    domain: orchestration
+    authority: Synthetic Agent Governance Standard
+    text: >
+      A multi-agent run assigns one lead, only necessary support specialists, control agents and an independent verifier; the orchestrator cannot approve actions. 多智能体运行须指定一名主责、必要的协同专家、控制智能体和独立验证者，编排智能体不得审批动作。
+  - ref: CTR-LOC-001
+    title: Country context routing / 国家属地路由
+    domain: country_context
+    authority: Synthetic Localization Standard
+    text: >
+      Country context identifies jurisdiction, authority, language, applicable edition and data-residency constraint; it is routing context and not legal advice. 国家属地上下文须识别司法辖区、主管机关、语言、适用版本和数据驻留限制，仅用于路由而非法律意见。
+  - ref: TWIN-LNK-001
+    title: Digital twin linkage / 数字孪生关联
+    domain: digital_twin
+    authority: Synthetic Digital Twin Standard
+    text: >
+      A digital-twin link records project, asset identifier, IFC GUID, model revision, coordinate reference, 3D Tiles or GLTF resource, GeoJSON or WMS layer and sensor time. 数字孪生关联须记录项目、资产编号、IFC GUID、模型版本、坐标参考、3D Tiles 或 GLTF、GeoJSON 或 WMS 图层及传感器时间。
+  - ref: EVD-PRV-001
+    title: Evidence provenance / 证据来源
+    domain: evidence_provenance
+    authority: Synthetic Evidence Standard
+    text: >
+      Every cited source retains stable reference, version, authority, jurisdiction, content digest and retrieval trace; a citation outside the same run is rejected. 每条引用须保留稳定编号、版本、权威来源、司法辖区、内容摘要和检索轨迹，引用本次运行未返回的来源应被拒绝。
+  - ref: VER-IND-001
+    title: Independent verification / 独立验证
+    domain: independent_verification
+    authority: Synthetic Verification Standard
+    text: >
+      The verifier recomputes evidence, approval, input, output and delivery checks from stored records and must remain independent of the proposing agent. 验证者须根据存储记录重新计算证据、审批、输入、输出和交付检查，并独立于提出动作的智能体。

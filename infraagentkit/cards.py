@@ -27,6 +27,8 @@ class Scope(_Strict):
     domain: str
     lifecycle: list[str] = Field(default_factory=list)
     jurisdictions: list[str] = Field(default_factory=list)
+    data_classes: list[str] = Field(default_factory=list)
+    project_types: list[str] = Field(default_factory=list)
 
 
 class EvidencePolicy(_Strict):
@@ -56,8 +58,13 @@ class AgentCard(_Strict):
     version: str = "1.0.0"
     name: str
     description: str = ""
+    tier: Literal["control", "domain", "assurance"] = "domain"
     scope: Scope
     authority: Literal["advisory", "operator"] = "advisory"
+    capabilities: list[str] = Field(default_factory=list)
+    collaborates_with: list[str] = Field(default_factory=list)
+    escalates_to: list[str] = Field(default_factory=list)
+    output_contract: list[str] = Field(default_factory=lambda: ["finding", "evidence_refs", "gaps", "questions"])
     tools: list[str]
     evidence: EvidencePolicy = Field(default_factory=EvidencePolicy)
     human_gate: HumanGate = Field(default_factory=HumanGate)
@@ -95,6 +102,21 @@ def lint(card: AgentCard, registry: ToolRegistry) -> list[str]:
             issues.append(f"{card.id}: external tool '{tool}' can never be exempt from the human gate")
     if not any(t in registry and registry.get(t).evidence_output for t in card.tools):
         issues.append(f"{card.id}: no evidence-producing tool, so no finding can ever be SUPPORTED")
+    if card.id in card.collaborates_with or card.id in card.escalates_to:
+        issues.append(f"{card.id}: an agent cannot collaborate with or escalate to itself")
+    if len(card.tools) != len(set(card.tools)):
+        issues.append(f"{card.id}: duplicate tools are not allowed")
+    return issues
+
+
+def lint_catalog(cards: list[AgentCard], registry: ToolRegistry) -> list[str]:
+    """Validate the card collection, including cross-agent references."""
+    issues = [issue for card in cards for issue in lint(card, registry)]
+    ids = {card.id for card in cards}
+    for card in cards:
+        for related in [*card.collaborates_with, *card.escalates_to]:
+            if related not in ids:
+                issues.append(f"{card.id}: references unknown agent '{related}'")
     return issues
 
 

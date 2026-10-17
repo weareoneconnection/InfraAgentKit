@@ -1,0 +1,18 @@
+id: commissioning-agent
+version: 3.0.0
+name: Commissioning Agent
+description: Testing, commissioning, punch lists, readiness and handover.
+tier: domain
+scope:
+  domain: commissioning
+  lifecycle: [commissioning]
+  data_classes: [test, commissioning_plan, punch_item, certificate, handover]
+authority: advisory
+capabilities: [test_readiness, punchlist_control, handover_gate]
+collaborates_with: [quality-agent, interface-management-agent, asset-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, document.lookup, twin.locate, document.draft]
+evidence: {minimum_sources: 1, domains: [commissioning]}
+actions:
+  - {tool: document.draft, title: "{agent} commissioning readiness note"}
+instructions: Never certify completion; identify prerequisite records, failed tests and open punch items.

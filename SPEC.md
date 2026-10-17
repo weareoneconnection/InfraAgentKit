@@ -1,4 +1,4 @@
-# InfraAgentKit 规范 v2.0
+# InfraAgentKit 规范 v3.0
 
 本规范定义智能体卡片、工具、动作意图、回执和审计账本的契约。实现可以替换（数据库、模型、连接器），契约不变。
 
@@ -9,8 +9,13 @@
 | `id` | 小写短横线标识 | 全局唯一，例如 `hse-agent` |
 | `version` | 字符串 | 卡片版本；与内容一起计算 `fingerprint` |
 | `name` / `description` | 字符串 | 展示用 |
+| `tier` | `control` / `domain` / `assurance` | 控制、专业或独立保证层 |
 | `scope.domain` | 字符串 | 专业领域，用于证据路由 |
 | `scope.lifecycle` / `scope.jurisdictions` | 列表 | 适用阶段与司法辖区；首个辖区用于检索过滤 |
+| `scope.data_classes` / `scope.project_types` | 列表 | 允许处理的数据类别与项目类型 |
+| `capabilities` | 列表 | 可展示、可发现的能力声明，不增加权限 |
+| `collaborates_with` / `escalates_to` | 列表 | 跨智能体协作与升级关系，加载时校验引用 |
+| `output_contract` | 列表 | 交接输出字段，默认 finding、evidence_refs、gaps、questions |
 | `authority` | `advisory` \| `operator` | advisory 的所有副作用都需人工；operator 可豁免指定的 write 工具 |
 | `tools` | 列表 | 允许调用的工具；未声明即拒绝 |
 | `evidence.minimum_sources` | 1–5 | SUPPORTED 结论所需的最少来源数 |
@@ -29,11 +34,12 @@
 
 ## 3. 运行（Run）
 
-1. **路由**：未指定智能体时，按消息检索到的证据领域选择智能体；次要领域的最佳得分须不低于首要领域的 60%。无证据时由一个 advisory 智能体返回 GAP。
+1. **分诊与动态编组**：未指定智能体时，按消息检索到的证据领域选择 1 个主责和最多 4 个协同专业智能体；控制面包含接入、编排、证据与独立验证，国家或空间上下文按信号加入。无证据时由一个 domain/advisory 智能体返回 GAP。
 2. **规划**：规则规划调用卡片中输入为消息的只读工具；模型规划只能选择卡片的只读工具且参数须符合 Schema，否则退回规则。
 3. **工具调用**：每次调用记录参数、输出与输出 SHA-256、规划来源和错误。
 4. **结论**：`SUPPORTED` 必须引用本次证据类工具返回、且属于 `evidence.domains` 的来源，数量不少于 `minimum_sources`；否则为 `GAP`，附缺口和向人提出的问题。模型撰写的结论若引用未返回的来源，丢弃并退回规则。
 5. **结论核验**：运行结束时重新核对每条 SUPPORTED 结论的引用，以及工具输出是否与记录的摘要一致。
+6. **交接与合成**：协同智能体以固定输出契约向主责智能体交接；运行时汇总证据、缺口、最高风险和冲突，但合成结果不替代具名人员决定。
 
 ## 4. 动作意图（ActionIntent）与人工关卡
 
