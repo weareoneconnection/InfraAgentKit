@@ -13,7 +13,7 @@ from .cards import AgentCard
 from .runtime import ConflictError, GovernanceError, GovernedRuntime
 
 BASE = Path(__file__).resolve().parent
-AGENTS_DIR = Path(os.getenv("INFRAAGENTKIT_AGENTS", BASE.parent / "examples" / "agents"))
+AGENTS_DIR = Path(os.getenv("INFRAAGENTKIT_AGENTS") or BASE.parent / "examples" / "agents")
 
 runtime = GovernedRuntime.from_directory(AGENTS_DIR)
 app = FastAPI(title="InfraAgentKit Runtime", version=__version__,
