@@ -50,8 +50,11 @@ def model_plan(model: Model, card: AgentCard, registry: ToolRegistry, message: s
             "properties": {"tool": {"type": "string", "enum": tools}, "arguments_json": {"type": "string"}}}}},
     }
     catalogue = json.dumps([registry.get(t).schema() for t in tools], ensure_ascii=False)
+    scope = ", ".join(card.scope.jurisdictions) or "none (leave jurisdiction empty)"
     system = (f"You plan read-only tool calls for the agent '{card.name}' ({card.scope.domain}). {card.instructions} "
-              f"Available tools: {catalogue}. Return at most {card.limits.max_tool_calls} calls. {DATA_NOTICE}")
+              f"Available tools: {catalogue}. The user's own words are already searched and assessed; add at most 2 extra "
+              "calls, e.g. a knowledge search with key engineering terms (in Chinese and English) the message implies. "
+              f"Allowed jurisdictions: {scope}. {DATA_NOTICE}")
     out = model.complete_json(system, f"<data>{message}</data>", schema)
     if not out or not isinstance(out.get("calls"), list) or not out["calls"]:
         return None
@@ -67,8 +70,14 @@ def model_plan(model: Model, card: AgentCard, registry: ToolRegistry, message: s
         params = registry.get(tool).parameters
         if set(args) - set(params["properties"]) or set(params["required"]) - set(args):
             return None
+        if "jurisdiction" in args:
+            # The model may not invent a jurisdiction: only the card's own scope counts.
+            allowed = card.scope.jurisdictions
+            args["jurisdiction"] = args["jurisdiction"] if args["jurisdiction"] in allowed else (allowed[0] if allowed else "")
+        if not all(isinstance(v, (str, int, float, bool)) for v in args.values()):
+            return None
         plan.append((tool, args))
-    return plan
+    return [(t, a) for i, (t, a) in enumerate(plan) if (t, a) not in plan[:i]]  # drop repeated identical calls
 
 
 def eligible_hits(card: AgentCard, outputs: list[dict]) -> list[dict]:
@@ -110,8 +119,10 @@ def model_finding(model: Model, card: AgentCard, message: str, risk: str, hits: 
                        "gaps": {"type": "array", "items": {"type": "string"}}, "questions": {"type": "array", "items": {"type": "string"}}},
     }
     sources = "\n".join(f"[{h['ref']}] {h['title']}: {h['text']}" for h in hits)
-    system = (f"You are the {card.name}. {card.instructions} State one conclusion about the situation using ONLY the "
-              f"sources, cite every source you rely on in evidence_refs, and list what is missing. Under 80 words. {DATA_NOTICE}")
+    system = (f"You are the {card.name}. {card.instructions} Using ONLY the sources, state what they require for this "
+              "situation and what evidence is still missing. Do not decide liability, entitlement, validity, cost or blame, "
+              "and do not add requirements the sources do not state. Cite every source you rely on in evidence_refs. "
+              f"Write in the same language as the situation, under 80 words. {DATA_NOTICE}")
     out = model.complete_json(system, f"<data>Situation: {message}\nRisk: {risk}\nSources:\n{sources}</data>", schema)
     if not out or not isinstance(out.get("claim"), str) or not out["claim"].strip() or len(out["claim"]) > 600:
         return None

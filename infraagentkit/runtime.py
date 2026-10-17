@@ -23,6 +23,11 @@ from .tools import ToolRegistry, default_registry, digest
 from .verifier import verify_execution, verify_findings
 
 HUMAN_PREFIXES_FORBIDDEN = ("agent:", "policy:", "model:", "runtime")
+RISK_ORDER = ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+
+
+def higher(a: str, b: str) -> str:
+    return max(a, b, key=lambda r: RISK_ORDER.index(r) if r in RISK_ORDER else 0)
 ROUTE_RATIO = 0.6
 
 
@@ -86,13 +91,15 @@ class GovernedRuntime:
         for aid in agent_ids:
             card = self.cards[aid]
             started = time.monotonic()
-            plan, planned_by = None, "rules"
+            # The rules plan always runs (the user's own words are always searched and assessed); a model plan can only
+            # add calls, so a rewritten query can widen recall but never lose what the original message finds.
+            planned = [(tool, args, "rules") for tool, args in rule_plan(card, self.registry, message)]
             if self.model is not None:
-                plan = model_plan(self.model, card, self.registry, message)
-                planned_by = "model" if plan else "rules"
-            plan = plan or rule_plan(card, self.registry, message)
+                for tool, args in model_plan(self.model, card, self.registry, message) or []:
+                    if (tool, args) not in [(t, a) for t, a, _ in planned]:
+                        planned.append((tool, args, "model"))
             outputs, risk = [], "LOW"
-            for tool, args in plan[: card.limits.max_tool_calls]:
+            for tool, args, planned_by in planned[: card.limits.max_tool_calls]:
                 spec = self.registry.get(tool)
                 decision = policy.for_analysis(card, spec)
                 call = ToolCall(agent_id=aid, tool=tool, arguments=args, planned_by=planned_by)
@@ -111,7 +118,7 @@ class GovernedRuntime:
                     if spec.evidence_output:
                         outputs.append(call.output)
                     if tool == "risk.assess":
-                        risk = call.output.get("risk", risk)
+                        risk = higher(risk, call.output.get("risk", "LOW"))  # never lowered by a reworded assessment
             hits = eligible_hits(card, outputs)
             finding = (model_finding(self.model, card, message, risk, hits) if self.model is not None else None) \
                 or rule_finding(card, message, risk, hits)

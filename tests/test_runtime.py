@@ -108,8 +108,17 @@ def test_model_cannot_cite_unretrieved_sources_or_plan_side_effects(runtime):
     runtime.model = Hostile(plan={"calls": [{"tool": "document.draft", "arguments_json": "{}"}]},
                             finding={"claim": "fine", "evidence_refs": ["MADE-UP"], "gaps": [], "questions": []})
     run = runtime.run(EDGE, ["hse-agent"])
-    assert all(c["planned_by"] == "rules" for c in run["tool_calls"])
+    assert not any(c["tool"] == "document.draft" for c in run["tool_calls"])
     assert run["findings"][0]["composed_by"] == "rules" and "MADE-UP" not in run["findings"][0]["evidence_refs"]
+
+
+def test_model_plan_adds_to_but_never_replaces_the_rules_plan(runtime):
+    runtime.model = Hostile(plan={"calls": [{"tool": "knowledge.search", "arguments_json": '{"query":"高处作业安全带使用规范标准"}'},
+                                            {"tool": "risk.assess", "arguments_json": '{"text":"minor note"}'}]})
+    run = runtime.run(EDGE, ["hse-agent"])
+    rules = [c for c in run["tool_calls"] if c["planned_by"] == "rules"]
+    assert {c["tool"] for c in rules} == {"risk.assess", "knowledge.search"}
+    assert run["findings"][0]["status"] == "SUPPORTED" and run["findings"][0]["risk"] == "HIGH"
 
 
 def test_valid_model_finding_is_used(runtime):
@@ -117,3 +126,10 @@ def test_valid_model_finding_is_used(runtime):
                                      "evidence_refs": ["HSE-WAH-001"], "gaps": [], "questions": ["Is a rescue plan in place?"]})
     finding = runtime.run(EDGE, ["hse-agent"])["findings"][0]
     assert finding["composed_by"] == "model" and finding["evidence_refs"] == ["HSE-WAH-001"]
+
+
+def test_model_cannot_invent_a_jurisdiction(runtime):
+    runtime.model = Hostile(plan={"calls": [{"tool": "knowledge.search", "arguments_json": '{"query":"variation clause","jurisdiction":"UK"}'}]})
+    run = runtime.run("Subcontractor requests a variation and an extension of time", ["contract-agent"])
+    call = next(c for c in run["tool_calls"] if c["tool"] == "knowledge.search" and c["planned_by"] == "model")
+    assert call["arguments"]["jurisdiction"] == ""
