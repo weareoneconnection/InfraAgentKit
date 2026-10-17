@@ -225,7 +225,7 @@ MCP 刻意不暴露批准、驳回和执行：MCP 宿主是自动化客户端，
 ### （一）开源协议与仓库
 
 - 协议：Apache-2.0（`LICENSE`）；第三方依赖及许可证见 `THIRD_PARTY.md`，无内嵌第三方代码。
-- 代码仓库：源代码随本提交包提供；公开仓库地址在参赛单位完成开源审批后发布。
+- 代码仓库：`https://github.com/weareoneconnection/InfraAgentKit`（公开），源代码同时随本提交包提供。
 
 ### （二）使用说明与文档
 

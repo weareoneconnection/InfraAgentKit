@@ -21,6 +21,10 @@ InfraAgentKit 让交通行业团队用工程化的方式开发专业智能体，
 需要 Python 3.11 或更高版本。
 
 ```bash
+git clone https://github.com/weareoneconnection/InfraAgentKit.git && cd InfraAgentKit
+```
+
+```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt && pip install -e .
 infra-agent doctor                 # 检查卡片、工具、知识包和 MCP SDK
