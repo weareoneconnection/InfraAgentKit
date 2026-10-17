@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "infraagentkit"
+version = "1.0.0"
+description = "Open governed agent, skill, tool and MCP framework for transport infrastructure"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.8,<3", "PyYAML>=6,<7"]
+
+[project.scripts]
+infra-agent = "infraagentkit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["infraagentkit*"]

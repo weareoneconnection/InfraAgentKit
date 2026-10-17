@@ -1,0 +1,4 @@
+{"id":"B01","message":"Worker near unprotected edge at P47","agent":"hse-agent","expect_supported":true,"expect_action":true}
+{"id":"B02","message":"Concrete crack defect on P52 pier","agent":"quality-agent","expect_supported":true,"expect_action":true}
+{"id":"B03","message":"Subcontractor requests variation and claim","agent":"contract-agent","expect_supported":true,"expect_action":true}
+{"id":"B04","message":"General greeting with no governed evidence","agent":"hse-agent","expect_supported":false,"expect_action":false}
