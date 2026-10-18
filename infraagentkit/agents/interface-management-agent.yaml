@@ -1,0 +1,18 @@
+id: interface-management-agent
+version: 3.0.0
+name: Interface Management Agent
+description: Civil, MEP, rail, systems and external interface control.
+tier: domain
+scope:
+  domain: interface_management
+  lifecycle: [design, procurement, construction, commissioning]
+  data_classes: [interface, boundary, dependency, action, model]
+authority: advisory
+capabilities: [interface_register, boundary_check, dependency_coordination]
+collaborates_with: [design-management-agent, engineering-agent, commissioning-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, twin.locate, schedule.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [interface_management]}
+actions:
+  - {tool: document.draft, title: "{agent} interface resolution draft"}
+instructions: Name both interface owners, the boundary, required input and acceptance evidence.

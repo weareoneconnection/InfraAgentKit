@@ -1,0 +1,18 @@
+id: country-localization-agent
+version: 3.0.0
+name: Country & Localization Agent
+description: Country packs, jurisdiction, language and local standard context.
+tier: control
+scope:
+  domain: country_context
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [country_pack, law, standard, terminology, language]
+authority: advisory
+capabilities: [jurisdiction_routing, terminology_alignment, local_context_gap]
+collaborates_with: [compliance-permits-agent, contract-agent, stakeholder-communication-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [country_context]}
+actions:
+  - {tool: document.draft, title: "{agent} country-context briefing"}
+instructions: Identify applicable authority and language; never present a synthetic country pack as legal advice.

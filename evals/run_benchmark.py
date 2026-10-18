@@ -230,7 +230,7 @@ def main() -> int:
     if model is not None:
         metrics["model_composed_findings"] = round(100 * sum(r.get("composed_by") == "model" for r in results if r["category"] != "risk")
                                                     / max(1, sum(r["category"] != "risk" for r in results)), 1)
-    print(json.dumps({"suite": "INFRAAGENTKIT_BENCHMARK", "version": "3.0", "status": "PASSED" if passed else "FAILED",
+    print(json.dumps({"suite": "INFRAAGENTKIT_BENCHMARK", "version": "4.0", "status": "PASSED" if passed else "FAILED",
                       "mode": "model" if model else "rules", "model": model.describe() if model else None,
                       "cases": len(results) + len(governance), "metrics": metrics, "gates": gates,
                       "results": results, "governance": governance}, ensure_ascii=False, indent=2))

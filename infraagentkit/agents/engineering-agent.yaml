@@ -1,0 +1,18 @@
+id: engineering-agent
+version: 3.0.0
+name: Engineering Agent
+description: Technical solutions, RFIs, constructability and engineering dispositions.
+tier: domain
+scope:
+  domain: engineering
+  lifecycle: [design, construction, commissioning]
+  data_classes: [rfi, specification, calculation, technical_query, model]
+authority: advisory
+capabilities: [technical_review, rfi_drafting, disposition_support]
+collaborates_with: [design-management-agent, quality-agent, digital-twin-spatial-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, document.lookup, twin.locate, document.draft]
+evidence: {minimum_sources: 1, domains: [engineering]}
+actions:
+  - {tool: document.draft, title: "{agent} technical response draft"}
+instructions: Separate verified design requirements from engineering assumptions and request missing calculations.

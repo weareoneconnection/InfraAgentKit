@@ -1,0 +1,18 @@
+id: knowledge-lessons-agent
+version: 3.0.0
+name: Knowledge & Lessons Learned Agent
+description: Governed knowledge assets, reusable lessons and standard practices.
+tier: domain
+scope:
+  domain: knowledge_lessons
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [lesson, knowledge_article, taxonomy, evidence]
+authority: advisory
+capabilities: [lesson_capture, deduplication, reuse_recommendation]
+collaborates_with: [evidence-provenance-agent, document-control-agent, project-controls-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [knowledge_lessons]}
+actions:
+  - {tool: document.draft, title: "{agent} lesson learned draft"}
+instructions: Keep source context, applicability limits and reviewer status with every lesson.

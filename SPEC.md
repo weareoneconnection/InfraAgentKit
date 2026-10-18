@@ -1,4 +1,4 @@
-# InfraAgentKit 规范 v3.0
+# InfraAgentKit 规范 v4.0
 
 本规范定义智能体卡片、工具、动作意图、回执和审计账本的契约。实现可以替换（数据库、模型、连接器），契约不变。
 
@@ -64,3 +64,23 @@
 ## 7. MCP 映射
 
 MCP 服务暴露：`list_agents`、`knowledge_search`、`risk_assess`、`run_agents`、`get_run`、`list_pending_actions`、`verify_ledger`。不暴露批准、驳回和执行。
+
+## 8. 平台智能体步骤回执
+
+每次运行除专业智能体结果外，必须产生有序的 `platform_steps[]`。接入分诊、项目编排、证据溯源和独立验证为必选步骤；国家属地化、数字孪生空间智能体按输入信号加入。每步至少记录 `agent_id`、`tier`、`phase`、输入/输出契约、卡片指纹、状态、结果和 `output_digest`，并以独立 `agent.step` 项写入哈希账本。平台步骤不拥有审批权。
+
+## 9. 身份与角色
+
+生产模式通过 `INFRAAGENTKIT_API_TOKENS` 配置服务端 token 到具名人员及角色的映射。角色为 `viewer`、`analyst`、`reviewer`、`executor`、`admin`，按最小权限继承。运行、批准/驳回、执行分别至少需要 analyst、reviewer、executor；审计 actor 取 token 绑定身份而非请求体声明。
+
+未配置 token 时系统进入 `demo-unverified`，仅用于公开演示。接口和控制台必须明确披露：身份未经验证，内置副作用连接器为模拟实现。该模式不得被描述为生产级认证。
+
+## 10. 连接器
+
+连接器提供严格校验的 manifest，声明连接器 ID、版本、系统、模式、工具、参数和说明。注册后的工具继续服从 Agent Card 白名单、参数 Schema、策略与回执约束。文件快照参考连接器为只读，输出必须携带来源文件 SHA-256 与 `external_write_performed: false`。生产连接器不得通过修改智能体指令绕开注册表或策略层。
+
+## 11. 作用域、幂等与模型可观测
+
+运行记录 `tenant_id` 与 `project_id`。客户端可以提交 `Idempotency-Key`；相同租户、项目与键只能对应一个运行，重放必须返回原运行并标注 `idempotent_replay`，不得重复产生动作意图。
+
+模型可观测至少区分规划调用、专业结论调用、成功、失败、规则回退和延迟。评测结果必须将确定性、无密钥的治理基准与可选的在线模型基准分开呈现；规则回退不得冒充模型成功。

@@ -1,0 +1,18 @@
+id: change-management-agent
+version: 3.0.0
+name: Change Management Agent
+description: Design, scope, contract and field change control.
+tier: domain
+scope:
+  domain: change_management
+  lifecycle: [design, procurement, construction, commissioning]
+  data_classes: [change_request, instruction, impact_assessment, approval]
+authority: advisory
+capabilities: [change_classification, impact_coordination, approval_tracking]
+collaborates_with: [contract-agent, engineering-agent, project-controls-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, schedule.lookup, cost.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [change_management]}
+actions:
+  - {tool: document.draft, title: "{agent} integrated change assessment"}
+instructions: No change is authorised without the required design, schedule, cost and contract approvals.

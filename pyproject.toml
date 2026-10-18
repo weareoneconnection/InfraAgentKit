@@ -4,12 +4,27 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "infraagentkit"
-version = "3.0.0"
+version = "4.0.0"
 description = "30-agent governed collaboration and MCP framework for the transport infrastructure lifecycle"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.11"
 dependencies = ["pydantic>=2.8,<3", "PyYAML>=6,<7", "httpx>=0.27,<1"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+[project.urls]
+Homepage = "https://github.com/weareoneconnection/InfraAgentKit"
+Repository = "https://github.com/weareoneconnection/InfraAgentKit"
+Issues = "https://github.com/weareoneconnection/InfraAgentKit/issues"
+Changelog = "https://github.com/weareoneconnection/InfraAgentKit/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 web = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.30,<1"]
@@ -23,7 +38,7 @@ infra-agent = "infraagentkit.cli:main"
 include = ["infraagentkit*"]
 
 [tool.setuptools.package-data]
-infraagentkit = ["packs/*.yaml", "static/*.html"]
+infraagentkit = ["agents/*.yaml", "packs/*.yaml", "static/*.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -14,7 +14,7 @@ from . import __version__
 from .runtime import GovernedRuntime
 
 EXPOSED = ["list_agents", "catalog_coverage", "knowledge_search", "risk_assess", "run_agents", "get_run",
-           "list_pending_actions", "verify_ledger"]
+           "list_pending_actions", "runtime_observability", "verify_ledger"]
 
 
 def build_server(runtime: GovernedRuntime) -> MCPServer:
@@ -54,6 +54,7 @@ def build_server(runtime: GovernedRuntime) -> MCPServer:
         run = runtime.run(message, agent_ids or None)
         return {"run_id": run["run_id"], "team": run["team"], "agents": run["agents"], "findings": run["findings"],
                 "handoffs": run["handoffs"], "synthesis": run["synthesis"],
+                "platform_steps": run["platform_steps"],
                 "actions": [{"id": a["id"], "tool": a["tool"], "status": a["status"]} for a in run["actions"]],
                 "finding_verification": run["finding_verification"]}
 
@@ -69,6 +70,11 @@ def build_server(runtime: GovernedRuntime) -> MCPServer:
     def list_pending_actions() -> list[dict]:
         """Side-effect intents waiting for a human decision."""
         return runtime.store.pending_actions()
+
+    @server.tool()
+    def runtime_observability() -> dict:
+        """Model telemetry, governed runtime counts and configured connector manifests."""
+        return runtime.observability()
 
     @server.tool()
     def verify_ledger() -> dict:

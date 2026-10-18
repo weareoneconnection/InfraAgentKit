@@ -1,0 +1,23 @@
+id: plant-agent
+version: 2.0.0
+name: Plant & Lifting Agent
+description: Lifting plans, crane and rigging certification readiness.
+tier: domain
+scope:
+  domain: plant
+  lifecycle: [construction]
+  data_classes: [plant_master, certificate, lifting_plan, telemetry]
+authority: advisory
+capabilities: [lifting_readiness, certification_check, utilisation_review]
+collaborates_with: [construction-agent, hse-agent, workforce-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, telemetry.read, document.draft, notification.send]
+evidence:
+  minimum_sources: 1
+  domains: [plant]
+actions:
+  - tool: document.draft
+    title: "{agent} lifting readiness checklist"
+  - tool: notification.send
+    title: "{agent} lifting supervisor alert"
+instructions: A lift may proceed only with an approved plan and certified equipment.

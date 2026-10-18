@@ -1,0 +1,17 @@
+{
+  "id": "project-snapshot-demo",
+  "version": "1.0.0",
+  "system": "Reviewed project snapshot",
+  "mode": "FILE_SNAPSHOT",
+  "tools": [
+    {
+      "name": "snapshot.asset_lookup",
+      "description": "Read assets from a reviewed project snapshot",
+      "parameter": "asset_id",
+      "records": [
+        {"asset_id": "P47", "type": "pier", "status": "IN_CONSTRUCTION", "ifc_guid": "2M9xP47DemoGuid"},
+        {"asset_id": "BRG-03", "type": "bearing", "status": "INSPECTION_REQUIRED", "sensor_id": "BRG03-DISP-X"}
+      ]
+    }
+  ]
+}

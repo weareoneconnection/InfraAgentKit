@@ -16,6 +16,7 @@ from pathlib import Path
 
 from . import policy
 from .cards import AgentCard, lint_catalog, load_cards
+from .connectors import load_connectors
 from .contracts import ActionIntent, ExecutionReceipt, ToolCall
 from .llm import Model, from_env
 from .reasoning import eligible_hits, model_finding, model_plan, rule_finding, rule_plan
@@ -47,6 +48,7 @@ class GovernedRuntime:
     def __init__(self, cards: list[AgentCard], registry: ToolRegistry | None = None, store: Store | None = None,
                  model: Model | None = None) -> None:
         self.registry = registry or default_registry()
+        self.connectors = load_connectors(self.registry, os.getenv("INFRAAGENTKIT_CONNECTOR_FILES", ""))
         self.cards = {c.id: c for c in cards}
         self.store = store or Store()
         self.model = model
@@ -116,7 +118,12 @@ class GovernedRuntime:
                 "lifecycle_coverage": lifecycles, "max_active_agents": self.max_active_agents}
 
     # --- analysis --------------------------------------------------------------------
-    def run(self, message: str, agent_ids: list[str] | None = None) -> dict:
+    def run(self, message: str, agent_ids: list[str] | None = None, *, tenant_id: str = "public",
+            project_id: str = "demo", idempotency_key: str | None = None) -> dict:
+        if idempotency_key:
+            existing = self.store.idempotent_run(tenant_id, project_id, idempotency_key)
+            if existing:
+                return {**existing, "idempotent_replay": True}
         run_id = "RUN-" + uuid.uuid4().hex[:10].upper()
         routed = agent_ids is None
         team = self.compose_team(message, agent_ids)
@@ -178,8 +185,69 @@ class GovernedRuntime:
         payload["synthesis"] = self._synthesise(team, findings)
         evidence_tools = {t for t in self.registry.names() if self.registry.get(t).evidence_output}
         payload["finding_verification"] = verify_findings(payload, evidence_tools)
-        self.store.save_run(run_id, message, "AWAITING_APPROVAL" if any(a.status == "AWAITING_APPROVAL" for a in actions) else "ANALYSED", payload)
+        payload["context"] = {"tenant_id": tenant_id, "project_id": project_id,
+                              "idempotency_key": idempotency_key}
+        payload["platform_steps"] = self._platform_steps(message, team, payload)
+        self.store.save_run(run_id, message, "AWAITING_APPROVAL" if any(a.status == "AWAITING_APPROVAL" for a in actions) else "ANALYSED",
+                            payload, tenant_id, project_id, idempotency_key)
         return self.store.get_run(run_id)
+
+    def _platform_steps(self, message: str, team: dict, payload: dict) -> list[dict]:
+        """Run the control and assurance plane as explicit, auditable agent steps.
+
+        These agents remain deterministic governance actors: they do not create
+        a second untrusted opinion.  Each consumes a named contract and emits a
+        digest-backed result that is appended separately to the ledger.
+        """
+        verification = payload["finding_verification"]
+        refs = list(dict.fromkeys(ref for finding in payload["findings"] for ref in finding["evidence_refs"]))
+        signals = {
+            "data-intake-triage-agent": {
+                "input_contract": "message+declared_context", "output_contract": "channel+sensitivity+target",
+                "result": {"channel": "bim_gis" if any(x in message.lower() for x in SPATIAL_SIGNALS) else "event_or_document",
+                           "sensitivity": "UNCLASSIFIED_DEMO", "target": team.get("lead")}},
+            "project-orchestrator-agent": {
+                "input_contract": "task+catalog+route_scores", "output_contract": "lead+support+control",
+                "result": {"lead": team.get("lead"), "support": team.get("support", []),
+                           "active_specialists": len(team.get("members", []))}},
+            "country-localization-agent": {
+                "input_contract": "jurisdiction+language+standards", "output_contract": "country_context+gaps",
+                "result": {"status": "CONTEXT_REQUIRED", "jurisdiction": "not supplied", "legal_advice": False}},
+            "digital-twin-spatial-agent": {
+                "input_contract": "asset+model+sensor_refs", "output_contract": "spatial_context+version",
+                "result": {"status": "SPATIAL_CONTEXT_DETECTED", "connector": "governed tool only"}},
+            "evidence-provenance-agent": {
+                "input_contract": "tool_receipts+finding_citations", "output_contract": "provenance_receipt",
+                "result": {"passed": verification["passed"], "evidence_refs": refs,
+                           "tool_outputs_hashed": sum(bool(call.get("output_digest")) for call in payload["tool_calls"])}},
+            "independent-verifier-agent": {
+                "input_contract": "stored_run+receipts", "output_contract": "independent_verification_receipt",
+                "result": {"passed": verification["passed"], "problems": verification["problems"],
+                           "independent_of_proposer": True}},
+        }
+        steps = []
+        for index, agent_id in enumerate(team.get("control", []), 1):
+            card = self.cards[agent_id]
+            contract = signals[agent_id]
+            result = contract["result"]
+            steps.append({"sequence": index, "agent_id": agent_id, "tier": card.tier,
+                          "phase": "ASSURE" if card.tier == "assurance" else "CONTROL",
+                          "status": "PASSED" if result.get("passed", True) else "FAILED",
+                          "input_contract": contract["input_contract"], "output_contract": contract["output_contract"],
+                          "card_fingerprint": card.fingerprint(), "result": result, "output_digest": digest(result)})
+        return steps
+
+    def observability(self) -> dict:
+        model = self.model.describe() if self.model is not None and hasattr(self.model, "describe") else {
+            "provider": None, "model": None, "calls": 0, "succeeded": 0, "failed": 0,
+            "cached": 0, "retries": 0, "avg_latency_ms": 0, "last_error": None}
+        runtime = self.store.metrics()
+        attempts = model["succeeded"] + model["failed"]
+        return {"model": model, "runtime": runtime,
+                "model_evidence": {"success_rate": round(model["succeeded"] / attempts, 3) if attempts else None,
+                                   "fallback_findings": max(0, runtime["findings"] - runtime["model_findings"]),
+                                   "boundary": "Model output is advisory and accepted only after schema, evidence and policy checks."},
+                "connectors": self.connectors}
 
     def _handoffs(self, team: dict, findings: list) -> list[dict]:
         lead = team.get("lead")

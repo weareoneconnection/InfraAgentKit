@@ -31,6 +31,7 @@ textarea,input,select{width:100%;background:#0b0e16;border:1px solid var(--line)
 .agent-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}.agent-card{position:relative;min-height:112px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:13px;background:rgba(255,255,255,.025);transition:.18s}.agent-card:hover{transform:translateY(-2px);border-color:rgba(142,128,255,.42);background:rgba(142,128,255,.06)}.agent-card b{display:block;font-size:12px;margin:5px 0}.agent-card p{font-size:10.5px;color:var(--muted);margin:0;line-height:1.45}.agent-card .idx{font:700 9px var(--mono);color:var(--accent2)}.tier{position:absolute;right:9px;top:9px;border:1px solid var(--line);border-radius:999px;padding:1px 5px;color:var(--muted);font:8px var(--mono);text-transform:uppercase}.tier.control{color:#60dfff}.tier.assurance{color:var(--ok)}
 .agent-picker{border:1px solid var(--line);border-radius:12px;padding:0 10px;background:rgba(0,0,0,.12)}.agent-picker summary{cursor:pointer;padding:9px 0;color:var(--muted);font-size:12px}.agent-picker[open] summary{color:var(--text)}.agents{max-height:300px;overflow:auto;padding:4px 2px 8px}.agent-group{padding:8px 0 3px;color:var(--accent2);font:700 9px var(--mono);letter-spacing:.12em;text-transform:uppercase}
 .team-strip{display:grid;grid-template-columns:1.2fr 1fr;gap:9px;margin:10px 0 16px}.team-box{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(0,0,0,.13)}.team-box .nodes{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.node{border:1px solid rgba(142,128,255,.34);border-radius:8px;padding:3px 7px;font:10px var(--mono);color:#c9c3ff}.node.lead{background:rgba(142,128,255,.2);color:#fff}.node.control{border-color:rgba(72,215,255,.28);color:#8be8ff}.synthesis{border-left:3px solid var(--ok)!important}.handoff{display:inline-flex;align-items:center;gap:4px;margin:2px 6px 2px 0;color:var(--muted);font:10px var(--mono)}
+.ops{margin-bottom:18px}.ops-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.ops-box{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(0,0,0,.13)}.ops-box b{display:block;margin-bottom:4px}.ops-box span{font-size:11px;color:var(--muted)}.step-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.step{border:1px solid rgba(72,215,255,.2);border-radius:11px;padding:10px;background:rgba(72,215,255,.035)}.step b{display:flex;justify-content:space-between;gap:8px}.step .phase{font:9px var(--mono);color:var(--accent2)}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
 /* Competition UI 3.0 ------------------------------------------------------ */
 :root{--bg:#070914;--panel:rgba(18,22,39,.88);--panel2:rgba(27,33,56,.88);--line:rgba(142,128,255,.2);--text:#f7f8ff;--muted:#9da8c7;--accent:#8e7cff;--accent2:#48d7ff;--ok:#5de0a8;--warn:#ffd074;--bad:#ff7d93;--shadow:0 24px 70px rgba(0,0,0,.28)}
@@ -59,7 +60,7 @@ textarea,input,select{background:rgba(6,8,17,.72);border-color:rgba(255,255,255,
 footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;padding:16px 2px 0;border-top:1px solid rgba(255,255,255,.07);color:#6f7a99;font:11px var(--mono);letter-spacing:.05em}
 @media(max-width:980px){header.hero{align-items:flex-start}.badges{max-width:none;justify-content:flex-start}.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:1120px){.agent-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:800px){.metrics{grid-template-columns:repeat(2,1fr)}.agent-grid{grid-template-columns:repeat(3,1fr)}.team-strip{grid-template-columns:1fr}}
+@media(max-width:800px){.metrics,.ops-grid{grid-template-columns:repeat(2,1fr)}.agent-grid{grid-template-columns:repeat(3,1fr)}.team-strip,.step-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.appbar-inner{height:52px;padding:0 15px}.app-status{font-size:9px}.brand small{display:none}main{padding:16px 14px 56px}header.hero{padding:24px 20px;border-radius:20px}.hero h1{font-size:36px}.sub{font-size:13px}.badges{gap:6px}.badge{padding:5px 9px}.flow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.flow:before{display:none}.flow div{flex:0 0 128px;scroll-snap-align:start}.card{padding:16px;border-radius:17px}.row{flex-wrap:wrap}.row>*{max-width:100%}.btn{min-height:42px}.checks{grid-template-columns:1fr}.agent-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}.agent-card{flex:0 0 185px;scroll-snap-align:start}.catalog-head{align-items:flex-start}.seg{width:100%;overflow-x:auto}.seg button{white-space:nowrap}.metrics{gap:7px}.metric{padding:12px}.metric strong{font-size:22px}footer{display:block;line-height:1.8}footer span{display:block}footer span+span{margin-top:6px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
@@ -68,13 +69,14 @@ footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;padding:16
 <nav class="appbar"><div class="appbar-inner"><div class="brand"><span class="brand-mark">IA</span><div>InfraAgentKit<small>受治理智能体运行平台</small></div></div><div class="app-status"><span class="pulse"></span>证据优先工作空间</div></div></nav>
 <main>
 <header class="hero">
-  <div class="hero-copy"><div class="ey">开源受治理智能体框架 · MCP</div><h1>InfraAgent<span>Kit</span></h1>
-  <p class="sub">30 个受治理智能体覆盖交通工程 24 个专业域：系统按任务动态组成“1 个主责 + 必要协同 + 控制与独立验证”团队，所有结论受证据约束，所有副作用受人工关卡控制。</p>
-  <div class="hero-notes"><span class="hero-note">24 专业智能体</span><span class="hero-note">6 平台智能体</span><span class="hero-note">最多 5 个动态编组</span><span class="hero-note">人工控制副作用</span></div></div>
+	  <div class="hero-copy"><div class="ey">开源受治理智能体框架 · MCP · V4</div><h1>InfraAgent<span>Kit</span></h1>
+	  <p class="sub">30 个受治理智能体覆盖交通工程 24 个专业域：专业智能体研判，6 个平台智能体现在作为可审计运行节点执行分诊、编排、证据治理和独立核验；所有副作用仍由身份与人工关卡控制。</p>
+	  <div class="hero-notes"><span class="hero-note">平台智能体真实回执</span><span class="hero-note">RBAC 身份边界</span><span class="hero-note">规则 / 模型双轨证据</span><span class="hero-note">连接器 SDK</span></div></div>
   <div class="badges" id="badges"></div>
 </header>
 <div class="flow"><div><b>数据接入</b>六类数据分诊</div><div><b>任务编排</b>动态专家编组</div><div><b>专业研判</b>多专业并行分析</div><div><b>证据治理</b>证据与来源血缘</div><div><b>综合决策</b>冲突识别与合成</div><div><b>人工关卡</b>具名人员审批</div><div><b>受控执行</b>按原参数执行</div><div><b>独立核验</b>生成核验回执</div></div>
 <div class="metrics" id="metrics"></div>
+	<section class="ops card"><div class="catalog-head"><div><div class="ey">13.1—13.7 · 运行可信度</div><h2 style="margin-top:6px">生产证据控制面</h2></div><button class="btn alt" onclick="golden()">载入 P47 黄金案例</button></div><div class="ops-grid" id="ops"><p class="muted small">正在读取运行状态…</p></div></section>
 <section class="catalog card">
   <div class="catalog-head"><div><div class="ey">智能体目录 · 24 专业 + 6 平台</div><h2 style="margin-top:6px">工程全生命周期智能体目录</h2><p class="muted small" style="margin:0">30 张严格卡片不是 30 个提示词：每张卡都声明专业边界、证据域、工具权限、协作关系和输出契约。</p></div>
   <div class="seg" id="catalogFilters"><button class="on" onclick="setFilter('all',this)">全部</button><button onclick="setFilter('domain',this)">24 专业</button><button onclick="setFilter('control',this)">4 控制</button><button onclick="setFilter('assurance',this)">2 验证</button></div></div>
@@ -91,7 +93,8 @@ footer{display:flex;justify-content:flex-end;gap:12px;margin-top:24px;padding:16
     <div class="row"><button class="btn" id="runBtn" onclick="run()">运行智能体</button><span class="muted small" id="runState" aria-live="polite"></span></div>
     <h3>审批人</h3>
     <input id="actor" value="项目经理 张工">
-    <p class="muted small">审批只能由具名的人完成；智能体、模型和 MCP 客户端都不能批准或执行。</p>
+	    <details class="agent-picker" style="margin-top:10px"><summary>访问令牌（生产 RBAC 可选）</summary><input id="token" type="password" placeholder="Bearer token；公开演示无需填写"></details>
+	    <p class="muted small">生产令牌把审批人绑定到身份；公开演示模式会明确标注身份未经验证，且所有外部连接器均为模拟。</p>
   </section>
   <section class="card" id="trace"><h2>任务控制中心</h2><p class="muted">点击“运行”查看：动态编组 → 专业研判 → 智能体交接 → 合成结论 → 人工关卡 → 执行与独立核验。</p></section>
 </div>
@@ -110,7 +113,7 @@ const AGENT_ZH={
 };
 const CAP_ZH={condition_assessment:'状态评估',maintenance_prioritisation:'维护优先级',work_order_drafting:'工单起草',change_classification:'变更分类',impact_coordination:'影响协调',approval_tracking:'审批跟踪',claim_readiness:'索赔准备度',evidence_chain:'证据链',entitlement_issue_spotting:'权利问题识别',test_readiness:'测试准备度',punchlist_control:'遗留项控制',handover_gate:'移交关卡',permit_register:'许可登记',obligation_screening:'义务筛查',approval_readiness:'审批准备度',workface_readiness:'作业面准备度',method_review:'施工方案审查',constraint_detection:'约束识别',obligation_review:'合同义务审查',notice_drafting:'通知函起草',commercial_risk_screening:'商务风险筛查',cost_variance:'成本偏差',estimate_at_completion:'完工估算',cashflow_review:'现金流审查',jurisdiction_routing:'司法辖区路由',terminology_alignment:'术语对齐',local_context_gap:'属地信息缺口',channel_classification:'渠道分类',sensitivity_screening:'敏感性筛查',target_object_mapping:'目标对象映射',design_review_control:'设计审查控制',revision_tracking:'版本跟踪',comment_resolution:'审查意见闭环',asset_location:'资产定位',model_linkage:'模型关联',sensor_context:'传感器上下文',spatial_impact:'空间影响分析',revision_validation:'版本校验',metadata_quality:'元数据质量',transmittal_drafting:'传递单起草',technical_review:'技术审查',rfi_drafting:'RFI 起草',disposition_support:'处置支持',impact_screening:'影响筛查',environmental_monitoring:'环境监测',esg_commitment_tracking:'ESG 承诺跟踪',citation_validation:'引用校验',version_check:'版本检查',lineage_check:'血缘检查',hazard_assessment:'危险源评估',stop_work_recommendation:'停工建议',incident_response:'事件响应',finding_verification:'结论核验',execution_verification:'执行核验',conflict_reporting:'冲突报告',interface_register:'接口登记',boundary_check:'边界检查',dependency_coordination:'依赖协调',lesson_capture:'经验采集',deduplication:'知识去重',reuse_recommendation:'复用建议',material_readiness:'材料准备度',logistics_constraint:'物流约束',preservation_review:'保管审查',critical_path_review:'关键路径审查',lookahead_constraints:'前瞻计划约束',delay_screening:'延误筛查',lifting_readiness:'吊装准备度',certification_check:'资质检查',utilisation_review:'利用率审查',package_status:'采购包状态',vendor_risk:'供应商风险',expediting_support:'催交支持',performance_analysis:'绩效分析',forecast_variance:'预测偏差',executive_briefing:'管理层简报',team_formation:'团队编组',task_decomposition:'任务分解',conflict_escalation:'冲突升级',synthesis:'综合研判',inspection_control:'检验控制',ncr_drafting:'NCR 起草',defect_trend_review:'缺陷趋势审查',risk_screening:'风险筛查',response_tracking:'应对跟踪',opportunity_identification:'机会识别',stakeholder_mapping:'利益相关方映射',commitment_tracking:'承诺跟踪',communication_drafting:'沟通材料起草',competence_check:'能力检查',training_gap:'培训缺口',productivity_review:'生产率审查'};
 const TOOL_ZH={'risk.assess':'风险评估','knowledge.search':'知识检索','schedule.lookup':'进度查询','cost.lookup':'成本查询','procurement.lookup':'采购查询','document.lookup':'文档查询','twin.locate':'数字孪生定位','telemetry.read':'遥测读取','document.draft':'文档草稿','notification.send':'通知发送'};
-const CHECK_ZH={policy_allows_execution:'策略允许执行',approval_recorded:'审批已记录',human_approval_when_required:'需要时已人工审批',tool_matches_intent:'工具与意图一致',arguments_match_approved:'参数与审批一致',output_digest_valid:'输出摘要有效',execution_succeeded:'执行成功',write_did_not_deliver_externally:'写入未对外发送'};
+const CHECK_ZH={policy_allowed_at_execution:'执行时策略允许',approval_recorded:'审批已记录',human_approval_when_required:'需要时已人工审批',tool_matches_intent:'工具与意图一致',input_matches_approved_arguments:'输入与审批参数一致',output_digest_valid:'输出摘要有效',execution_succeeded:'执行成功',delivery_matches_side_effect:'投递行为与副作用类型一致'};
 const agentName=id=>AGENT_ZH[id]||id;
 const domainName=id=>DOMAIN_ZH[id]||id;
 const capName=id=>CAP_ZH[id]||id;
@@ -132,26 +135,31 @@ const SAMPLES=[
   ['竣工移交','调试测试存在安全关键遗留项，竣工图版本和资产移交资料尚未齐全。'],
 ];
 let lastRun=null,catalogAgents=[];
-async function api(path,opt){const r=await fetch(path,opt);const b=await r.json().catch(()=>({}));if(!r.ok)throw new Error(b.detail||r.status);return b}
+function authHeaders(){const token=$('token')?.value.trim();return token?{authorization:`Bearer ${token}`}:{}}
+async function api(path,opt={}){opt.headers={...authHeaders(),...(opt.headers||{})};const r=await fetch(path,opt);const b=await r.json().catch(()=>({}));if(!r.ok)throw new Error(b.detail||r.status);return b}
 async function init(){
   $('samples').innerHTML=SAMPLES.map(([t,m],i)=>`<button class="chip" onclick="pick(${i})">${esc(t)}</button>`).join('');
   catalogAgents=await api('/agents');
   $('agents').innerHTML=['domain','control','assurance'].map(t=>`<div class="agent-group">${TIER_ZH[t]}</div>`+catalogAgents.filter(a=>a.tier===t).map(a=>`<label><input type="checkbox" value="${a.id}"> <b>${esc(agentName(a.id))}</b> <span class="k">${esc(domainName(a.scope.domain))}</span></label>`).join('')).join('');
   renderCatalog('all');
-  badges();
+	  badges();ops();
 }
-async function badges(){const h=await api('/health');const v=await api('/ledger/verify');
-  $('badges').innerHTML=`<span class="badge">v${h.version}</span><span class="badge">${h.agents} 个智能体</span><span class="badge">${h.model==='configured'?'大模型规划':'确定性规则'}</span><span class="badge ${v.valid?'ok':'bad'}">账本 ${v.valid?'完整':'被篡改'} · ${v.entries} 条</span>`;
-  $('metrics').innerHTML=`<div class="metric"><span>受治理智能体</span><strong>${h.agents}</strong><small class="muted">24 专业 + 6 平台</small><i>30</i></div><div class="metric"><span>专业域覆盖</span><strong>${h.coverage.domain_coverage}/24</strong><small class="muted">工程全生命周期</small><i>24</i></div><div class="metric"><span>受治理工具</span><strong>${h.tools}</strong><small class="muted">只读 / 写入 / 外部</small><i>10</i></div><div class="metric"><span>知识来源</span><strong>${h.knowledge_sources}</strong><small class="muted">中英双语、版本化</small><i>57</i></div>`}
+async function badges(){const h=await api('/health');const v=await api('/ledger/verify');const model=h.model||{};
+	  $('badges').innerHTML=`<span class="badge">v${h.version}</span><span class="badge">${h.agents} 个智能体</span><span class="badge">${model.model?esc(model.model):'确定性规则'} · ${model.succeeded||0}/${model.calls||0} 成功</span><span class="badge ${v.valid?'ok':'bad'}">账本 ${v.valid?'完整':'被篡改'} · ${v.entries} 条</span>`;
+	  $('metrics').innerHTML=`<div class="metric"><span>受治理智能体</span><strong>${h.agents}</strong><small class="muted">24 专业 + 6 平台实跑</small><i>30</i></div><div class="metric"><span>专业域覆盖</span><strong>${h.coverage.domain_coverage}/24</strong><small class="muted">工程全生命周期</small><i>24</i></div><div class="metric"><span>受治理工具</span><strong>${h.tools}</strong><small class="muted">严格参数与副作用分类</small><i>10</i></div><div class="metric"><span>知识来源</span><strong>${h.knowledge_sources}</strong><small class="muted">中英双语、版本化</small><i>57</i></div>`}
+async function ops(){const [h,o,e,c]=await Promise.all([api('/health'),api('/observability'),api('/evaluation'),api('/connectors')]);const s=h.security;
+  $('ops').innerHTML=`<div class="ops-box"><b>${s.identity_verified?'令牌 RBAC':'公开演示模式'}</b><span>${s.identity_verified?'身份已绑定到角色':'身份未验证 · 模拟副作用'}</span></div><div class="ops-box"><b>${e.status} · ${e.cases} 项</b><span>规则评测门禁 · 模型运行另行观测</span></div><div class="ops-box"><b>${o.runtime.platform_agent_steps} 条平台回执</b><span>控制与核验智能体独立写入账本</span></div><div class="ops-box"><b>${c.file_connectors.length} 个文件连接器</b><span>内置 6 个合成预览 · 可替换 SDK</span></div>`}
+async function golden(){const g=await api('/demo/golden');$('msg').value=g.message;$('msg').focus()}
 function setFilter(t,el){document.querySelectorAll('#catalogFilters button').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderCatalog(t)}
 function renderCatalog(t){const list=catalogAgents.filter(a=>t==='all'||a.tier===t);$('catalog').innerHTML=list.map((a,i)=>`<article class="agent-card"><span class="idx">${String(i+1).padStart(2,'0')} · ${esc(domainName(a.scope.domain))}</span><span class="tier ${a.tier}">${TIER_ZH[a.tier]||a.tier}</span><b>${esc(agentName(a.id))}</b><p>${esc(a.capabilities.slice(0,3).map(capName).join(' · ')||a.description)}</p></article>`).join('')}
 function pick(i){$('msg').value=SAMPLES[i][1]}
 async function run(){
   $('runBtn').disabled=true;$('runState').textContent='运行中…';
   const ids=[...document.querySelectorAll('#agents input:checked')].map(x=>x.value);
-  try{lastRun=await api('/runs',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message:$('msg').value,agent_ids:ids.length?ids:null})});render()}
+	  const key=crypto.randomUUID?crypto.randomUUID():String(Date.now());
+	  try{lastRun=await api('/runs',{method:'POST',headers:{'content-type':'application/json','Idempotency-Key':key},body:JSON.stringify({message:$('msg').value,agent_ids:ids.length?ids:null,tenant_id:'public',project_id:'competition-demo'})});render()}
   catch(e){$('trace').innerHTML=`<h2>运行轨迹</h2><p class="st err">${esc(e.message)}</p>`}
-  $('runBtn').disabled=false;$('runState').textContent='';badges();
+	  $('runBtn').disabled=false;$('runState').textContent='';badges();ops();
 }
 async function refresh(){lastRun=await api('/runs/'+lastRun.run_id);render();badges()}
 function sourceText(ref){for(const c of lastRun.tool_calls){for(const h of (c.output?.hits||[])){if(h.ref===ref)return h}}return null}
@@ -160,8 +168,9 @@ function render(){
   const r=lastRun;const fv=r.finding_verification;
   let html=`<h2>运行轨迹 <span class="k">${r.run_id}</span></h2>
   <p class="small muted">${r.routed?'动态证据编组':'用户指定编组'} · 最多 ${r.team.max_active} 个专业智能体 · 结论核验 <span class="st ${fv.passed?'ok':'err'}">${fv.passed?'通过':'未通过'}</span></p>
-  <div class="team-strip"><div class="team-box"><b>任务团队</b><div class="nodes"><span class="node lead">主责 · ${esc(agentName(r.team.lead))}</span>${r.team.support.map(x=>`<span class="node">协同 · ${esc(agentName(x))}</span>`).join('')}</div></div><div class="team-box"><b>控制与验证</b><div class="nodes">${r.team.control.map(x=>`<span class="node control">${esc(agentName(x))}</span>`).join('')}</div></div></div>
-  <h3>工具调用（只读，输出可校验）</h3>`+r.tool_calls.map(c=>`<div class="item"><b>${esc(agentName(c.agent_id))}</b> → <b>${esc(TOOL_ZH[c.tool]||c.tool)}</b> <code>${esc(c.tool)}</code> <span class="k">${c.planned_by==='model'?'模型规划':'规则规划'}</span>${c.error?`<span class="st err">${esc(localizeText(c.error))}</span>`:''}
+	  <div class="team-strip"><div class="team-box"><b>任务团队</b><div class="nodes"><span class="node lead">主责 · ${esc(agentName(r.team.lead))}</span>${r.team.support.map(x=>`<span class="node">协同 · ${esc(agentName(x))}</span>`).join('')}</div></div><div class="team-box"><b>控制与验证</b><div class="nodes">${r.team.control.map(x=>`<span class="node control">${esc(agentName(x))}</span>`).join('')}</div></div></div>
+	  <h3>平台智能体运行回执</h3><div class="step-grid">${(r.platform_steps||[]).map(s=>`<div class="step"><b>${esc(agentName(s.agent_id))}<span class="phase">${esc(s.phase)} · ${esc(s.status)}</span></b><div class="small">${esc(s.input_contract)} → ${esc(s.output_contract)}</div><div class="k">${esc(s.output_digest.slice(0,20))}…</div></div>`).join('')}</div>
+	  <h3>工具调用（只读，输出可校验）</h3>`+r.tool_calls.map(c=>`<div class="item"><b>${esc(agentName(c.agent_id))}</b> → <b>${esc(TOOL_ZH[c.tool]||c.tool)}</b> <code>${esc(c.tool)}</code> <span class="k">${c.planned_by==='model'?'模型规划':'规则规划'}</span>${c.error?`<span class="st err">${esc(localizeText(c.error))}</span>`:''}
     <div class="k">${c.tool==='risk.assess'?`风险 ${esc(riskName(c.output?.risk))} · 信号 ${esc((c.output?.signals||[]).join('、')||'无')}`:c.tool==='knowledge.search'?`命中 ${(c.output?.hits||[]).map(h=>h.ref+' ('+h.score+')').join('、')||'无（低于阈值不算证据）'}`:''}</div>
     <div class="k">输出 SHA-256 摘要 ${esc((c.output_digest||'').slice(0,24))}…</div></div>`).join('')
   +`<h3>结论（证据契约）</h3>`+r.findings.map(f=>`<div class="item"><b>${esc(agentName(f.agent_id))}</b><span class="st ${f.status}">${statusName(f.status)}</span><span class="k"> 风险 ${riskName(f.risk)} · 置信度 ${f.confidence} · ${f.composed_by==='model'?'模型撰写':'规则撰写'}</span>

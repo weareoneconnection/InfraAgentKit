@@ -1,0 +1,18 @@
+id: digital-twin-spatial-agent
+version: 3.0.0
+name: Digital Twin & Spatial Agent
+description: IFC, GLTF, 3D Tiles, GeoJSON, WMS, assets and IoT spatial linkage.
+tier: control
+scope:
+  domain: digital_twin
+  lifecycle: [design, construction, commissioning, operations]
+  data_classes: [ifc, gltf, tiles, geojson, wms, telemetry]
+authority: advisory
+capabilities: [asset_location, model_linkage, sensor_context, spatial_impact]
+collaborates_with: [engineering-agent, construction-agent, asset-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, twin.locate, telemetry.read, document.draft]
+evidence: {minimum_sources: 1, domains: [digital_twin]}
+actions:
+  - {tool: document.draft, title: "{agent} spatial impact note"}
+instructions: Treat model and sensor links as context; state coordinate, version and observation time.

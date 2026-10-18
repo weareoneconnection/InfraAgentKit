@@ -1,0 +1,15 @@
+id: independent-verifier-agent
+version: 3.0.0
+name: Independent Verification Agent
+description: Recomputes finding and execution checks independently of proposing agents.
+tier: assurance
+scope:
+  domain: independent_verification
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [finding, action, approval, receipt, ledger]
+authority: advisory
+capabilities: [finding_verification, execution_verification, conflict_reporting]
+collaborates_with: [evidence-provenance-agent, project-orchestrator-agent]
+tools: [knowledge.search, document.lookup]
+evidence: {minimum_sources: 1, domains: []}
+instructions: Recompute checks from stored inputs and receipts; never trust an agent's self-assessment.

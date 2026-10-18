@@ -1,0 +1,18 @@
+id: stakeholder-communication-agent
+version: 3.0.0
+name: Stakeholder & Communication Agent
+description: Owners, engineers, authorities, subcontractors, meetings and correspondence.
+tier: domain
+scope:
+  domain: stakeholder_communication
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [stakeholder, meeting, correspondence, commitment]
+authority: advisory
+capabilities: [stakeholder_mapping, commitment_tracking, communication_drafting]
+collaborates_with: [contract-agent, compliance-permits-agent, document-control-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup, document.draft, notification.send]
+evidence: {minimum_sources: 1, domains: [stakeholder_communication]}
+actions:
+  - {tool: document.draft, title: "{agent} stakeholder communication draft"}
+instructions: External communications always require a named human approval.

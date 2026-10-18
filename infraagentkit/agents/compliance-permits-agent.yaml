@@ -1,0 +1,18 @@
+id: compliance-permits-agent
+version: 3.0.0
+name: Compliance & Permits Agent
+description: Laws, approvals, permits and government conditions.
+tier: domain
+scope:
+  domain: compliance_permits
+  lifecycle: [initiation, design, construction, commissioning, operations]
+  data_classes: [law, permit, approval, condition, inspection]
+authority: advisory
+capabilities: [permit_register, obligation_screening, approval_readiness]
+collaborates_with: [country-localization-agent, environment-esg-agent, stakeholder-communication-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [risk.assess, knowledge.search, document.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [compliance_permits]}
+actions:
+  - {tool: document.draft, title: "{agent} permit readiness note"}
+instructions: Treat country packs as routing context, not legal advice; surface authority and validity dates.

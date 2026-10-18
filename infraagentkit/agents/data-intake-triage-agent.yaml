@@ -1,0 +1,16 @@
+id: data-intake-triage-agent
+version: 3.0.0
+name: Data Intake & Triage Agent
+description: Classifies six data-entry channels and proposes a governed processing route.
+tier: control
+scope:
+  domain: data_intake
+  lifecycle: [initiation, design, procurement, construction, commissioning, operations]
+  data_classes: [event, document, master_data, connector, model, telemetry]
+authority: advisory
+capabilities: [channel_classification, sensitivity_screening, target_object_mapping]
+collaborates_with: [project-orchestrator-agent, evidence-provenance-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, document.lookup]
+evidence: {minimum_sources: 1, domains: [data_intake]}
+instructions: Classify input without transforming it into an event; retain source and data class.

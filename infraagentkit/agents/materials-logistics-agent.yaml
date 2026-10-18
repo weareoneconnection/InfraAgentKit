@@ -1,0 +1,18 @@
+id: materials-logistics-agent
+version: 3.0.0
+name: Materials & Logistics Agent
+description: Materials, inventory, transport, preservation and site logistics.
+tier: domain
+scope:
+  domain: materials_logistics
+  lifecycle: [procurement, construction, commissioning]
+  data_classes: [material, inventory, shipment, storage, inspection]
+authority: advisory
+capabilities: [material_readiness, logistics_constraint, preservation_review]
+collaborates_with: [procurement-agent, construction-agent, quality-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, procurement.lookup, schedule.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [materials_logistics]}
+actions:
+  - {tool: document.draft, title: "{agent} logistics recovery draft"}
+instructions: Distinguish planned, dispatched, received and accepted quantities.

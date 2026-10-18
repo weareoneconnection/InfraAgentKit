@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.0.0 — 2026-10-18
+- Promoted the four control and two assurance cards into explicit, digest-backed platform-agent steps written separately to the audit ledger.
+- Added optional bearer-token RBAC, honest public-demo identity labelling, role enforcement, security headers and a process-local abuse guard.
+- Added runtime model telemetry, rule/model evidence separation and an optional live-model benchmark.
+- Added a file-backed Connector SDK with manifest validation, source digests and a runnable project snapshot example.
+- Added tenant/project run scopes and idempotency-key replay protection to the durable SQLite reference store.
+- Added release and security workflows, package metadata, contribution templates and software-supply-chain checks.
+- Added the P47 golden governance case and a V4 console showing platform-agent receipts, model evidence and deployment boundaries.
+
 ## 3.0.0 — 2026-10-17
 - Expanded from 5 examples to 30 governed Agent Cards: 24 lifecycle domains, 4 control agents and 2 assurance agents.
 - Added capability, data-class, collaboration, escalation and output-contract declarations with cross-card linting.

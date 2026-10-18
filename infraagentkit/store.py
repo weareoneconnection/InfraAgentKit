@@ -34,6 +34,9 @@ CREATE TABLE IF NOT EXISTS receipts(id TEXT PRIMARY KEY, action_id TEXT NOT NULL
 CREATE TABLE IF NOT EXISTS ledger(seq INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL,
   subject TEXT NOT NULL, actor TEXT NOT NULL, payload_digest TEXT NOT NULL, prev_hash TEXT NOT NULL,
   hash TEXT NOT NULL, created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS run_contexts(run_id TEXT PRIMARY KEY, tenant_id TEXT NOT NULL, project_id TEXT NOT NULL,
+  idempotency_key TEXT, created_at TEXT NOT NULL,
+  UNIQUE(tenant_id, project_id, idempotency_key));
 """
 
 
@@ -85,10 +88,21 @@ class Store:
         return {"valid": True, "entries": len(rows), "head": prev}
 
     # --- runs ------------------------------------------------------------------
-    def save_run(self, run_id: str, message: str, status: str, payload: dict) -> None:
+    def save_run(self, run_id: str, message: str, status: str, payload: dict,
+                 tenant_id: str = "public", project_id: str = "demo", idempotency_key: str | None = None) -> None:
         with self._lock, self._conn() as c:
             c.execute("INSERT INTO runs VALUES(?,?,?,?,?)", (run_id, message, status, json.dumps(payload, ensure_ascii=False), now()))
+            c.execute("INSERT INTO run_contexts VALUES(?,?,?,?,?)",
+                      (run_id, tenant_id, project_id, idempotency_key, now()))
             self._append(c, "run.analysed", run_id, "runtime", payload)
+            for step in payload.get("platform_steps", []):
+                self._append(c, "agent.step", f"{run_id}:{step['agent_id']}", step["agent_id"], step)
+
+    def idempotent_run(self, tenant_id: str, project_id: str, idempotency_key: str) -> dict | None:
+        with self._conn() as c:
+            row = c.execute("SELECT run_id FROM run_contexts WHERE tenant_id=? AND project_id=? AND idempotency_key=?",
+                            (tenant_id, project_id, idempotency_key)).fetchone()
+        return self.get_run(row["run_id"]) if row else None
 
     def get_run(self, run_id: str) -> dict | None:
         with self._conn() as c:
@@ -102,7 +116,26 @@ class Store:
 
     def recent_runs(self, limit: int = 20) -> list[dict]:
         with self._conn() as c:
-            return [dict(r) for r in c.execute("SELECT id, message, status, created_at FROM runs ORDER BY created_at DESC LIMIT ?", (limit,))]
+            return [dict(r) for r in c.execute(
+                "SELECT r.id,r.message,r.status,r.created_at,c.tenant_id,c.project_id "
+                "FROM runs r LEFT JOIN run_contexts c ON c.run_id=r.id ORDER BY r.created_at DESC LIMIT ?", (limit,))]
+
+    def metrics(self) -> dict:
+        with self._conn() as c:
+            run_rows = c.execute("SELECT payload FROM runs").fetchall()
+            action_rows = c.execute("SELECT status,COUNT(*) n FROM actions GROUP BY status").fetchall()
+            receipt_count = c.execute("SELECT COUNT(*) n FROM receipts").fetchone()["n"]
+            context_count = c.execute("SELECT COUNT(DISTINCT tenant_id || ':' || project_id) n FROM run_contexts").fetchone()["n"]
+        model_calls = model_findings = findings = platform_steps = 0
+        for row in run_rows:
+            payload = json.loads(row["payload"])
+            model_calls += sum(call.get("planned_by") == "model" for call in payload.get("tool_calls", []))
+            model_findings += sum(item.get("composed_by") == "model" for item in payload.get("findings", []))
+            findings += len(payload.get("findings", []))
+            platform_steps += len(payload.get("platform_steps", []))
+        return {"runs": len(run_rows), "actions": {row["status"]: row["n"] for row in action_rows},
+                "receipts": receipt_count, "scopes": context_count, "model_planned_calls": model_calls,
+                "model_findings": model_findings, "findings": findings, "platform_agent_steps": platform_steps}
 
     # --- actions -------------------------------------------------------------------
     def save_action(self, action: ActionIntent) -> None:

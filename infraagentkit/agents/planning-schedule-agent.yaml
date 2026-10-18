@@ -1,0 +1,18 @@
+id: planning-schedule-agent
+version: 3.0.0
+name: Planning & Schedule Agent
+description: WBS, critical path, delay analysis and lookahead planning.
+tier: domain
+scope:
+  domain: planning_schedule
+  lifecycle: [design, procurement, construction, commissioning]
+  data_classes: [wbs, programme, lookahead, progress_update]
+authority: advisory
+capabilities: [critical_path_review, lookahead_constraints, delay_screening]
+collaborates_with: [project-controls-agent, claims-disputes-agent, construction-agent]
+escalates_to: [project-orchestrator-agent]
+tools: [knowledge.search, schedule.lookup, document.draft]
+evidence: {minimum_sources: 1, domains: [planning_schedule]}
+actions:
+  - {tool: document.draft, title: "{agent} schedule impact note"}
+instructions: Never change the approved baseline; state data date, logic and assumptions.

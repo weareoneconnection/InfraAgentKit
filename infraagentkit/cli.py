@@ -10,11 +10,12 @@ from pathlib import Path
 
 from . import __version__
 from .cards import AgentCard, lint, lint_catalog, load_cards
+from .connectors import FileSnapshotConnector
 from .knowledge import load_packs
 from .tools import default_registry
 
 ROOT = Path(__file__).resolve().parent.parent
-EXAMPLES = ROOT / "examples" / "agents"
+EXAMPLES = Path(__file__).resolve().parent / "agents"
 
 
 def _print(value) -> None:
@@ -108,8 +109,17 @@ def cmd_schema(_args) -> int:
     return 0
 
 
-def cmd_eval(_args) -> int:
-    return subprocess.call([sys.executable, str(ROOT / "evals" / "run_benchmark.py")], cwd=ROOT)
+def cmd_eval(args) -> int:
+    script = "run_model_benchmark.py" if args.model else "run_benchmark.py"
+    return subprocess.call([sys.executable, str(ROOT / "evals" / script)], cwd=ROOT)
+
+
+def cmd_connector_validate(args) -> int:
+    connector = FileSnapshotConnector(args.path)
+    registry = default_registry()
+    tools = connector.register(registry)
+    _print({"status": "ok", "connector": connector.describe(), "registered_tools": tools})
+    return 0
 
 
 def cmd_serve(args) -> int:
@@ -145,7 +155,10 @@ def main(argv: list[str] | None = None) -> None:
     p = sub.add_parser("execute", help="execute an approved action"); p.add_argument("action_id"); p.set_defaults(fn=cmd_execute)
     sub.add_parser("audit", help="verify the hash-chained ledger").set_defaults(fn=cmd_audit)
     sub.add_parser("schema", help="print the Agent Card JSON Schema").set_defaults(fn=cmd_schema)
-    sub.add_parser("eval", help="run the governance benchmark").set_defaults(fn=cmd_eval)
+    p = sub.add_parser("eval", help="run the governance benchmark"); p.add_argument("--model", action="store_true")
+    p.set_defaults(fn=cmd_eval)
+    p = sub.add_parser("connector-validate", help="validate and inspect a file connector")
+    p.add_argument("path"); p.set_defaults(fn=cmd_connector_validate)
     p = sub.add_parser("serve", help="runtime API and console"); p.add_argument("--host", default="127.0.0.1")
     p.add_argument("--port", type=int, default=8103); p.add_argument("--reload", action="store_true"); p.set_defaults(fn=cmd_serve)
     p = sub.add_parser("mcp-serve", help="MCP server (official SDK v2)")
