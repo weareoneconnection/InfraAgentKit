@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import runpy
 import shutil
-import subprocess
 import sys
 from pathlib import Path
 
@@ -111,7 +111,19 @@ def cmd_schema(_args) -> int:
 
 def cmd_eval(args) -> int:
     script = "run_model_benchmark.py" if args.model else "run_benchmark.py"
-    return subprocess.call([sys.executable, str(ROOT / "evals" / script)], cwd=ROOT)
+    path = ROOT / "evals" / script
+    if not path.exists():
+        raise RuntimeError("evaluation assets are available in the source checkout")
+    previous = sys.argv[:]
+    sys.argv = [str(path)] + (["--model"] if args.model else [])
+    try:
+        try:
+            runpy.run_path(str(path), run_name="__main__")
+        except SystemExit as exc:
+            return exc.code if isinstance(exc.code, int) else 1
+        return 0
+    finally:
+        sys.argv = previous
 
 
 def cmd_connector_validate(args) -> int:

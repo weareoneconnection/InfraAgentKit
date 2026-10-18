@@ -73,8 +73,10 @@ class Store:
 
     def ledger(self, subject: str | None = None) -> list[dict]:
         with self._conn() as c:
-            rows = c.execute("SELECT * FROM ledger" + (" WHERE subject LIKE ?" if subject else "") + " ORDER BY seq",
-                             (f"{subject}%",) if subject else ()).fetchall()
+            if subject:
+                rows = c.execute("SELECT * FROM ledger WHERE subject LIKE ? ORDER BY seq", (f"{subject}%",)).fetchall()
+            else:
+                rows = c.execute("SELECT * FROM ledger ORDER BY seq").fetchall()
         return [dict(r) for r in rows]
 
     def verify_ledger(self) -> dict:
